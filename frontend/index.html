@@ -196,19 +196,11 @@
             <label for="location">Location</label>
 
             <select id="location">
-                <option value="sample_weather.csv">
-                    Demonstration weather
-                </option>
-                <option value="nnsw_malua_2025_2026.csv">
-                    Malua — Northern NSW
-                </option>
-                <option value="nnsw_knockrow_2025_2026.csv">
-                    Knockrow — Northern NSW
-                </option>
-                <option value="nnsw_dorey_2025_2026.csv">
-                    Dorey — Northern NSW
-                </option>
-            </select>
+    <option value="demo">Demonstration weather</option>
+    <option value="malua">Malua — Northern NSW</option>
+    <option value="knockrow">Knockrow — Northern NSW</option>
+    <option value="dorey">Dorey — Northern NSW</option>
+</select>
 
             <label for="initialEggs">
                 Initial population
@@ -323,12 +315,10 @@ async function runForecast() {
                         "application/json"
                 },
 
-                body: JSON.stringify({
-                    weather_file:
-                        "data/weather/" + location,
-                    initial_eggs:
-                        initialEggs
-                })
+               body: JSON.stringify({
+    location: location,
+    initial_eggs: initialEggs
+})
             }
         );
 

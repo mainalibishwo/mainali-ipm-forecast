@@ -24,7 +24,34 @@ class WeatherLoader:
     }
 
     @staticmethod
-    def load_csv(csv_file: str | Path) -> list[WeatherDay]:
+    def _parse_date(value: str):
+        """Parse supported weather-file date formats."""
+
+        value = value.strip()
+
+        formats = (
+            "%Y-%m-%d",   # 2025-07-01
+            "%m/%d/%y",   # 7/1/25
+            "%m/%d/%Y",   # 7/1/2025
+        )
+
+        for date_format in formats:
+            try:
+                return datetime.strptime(
+                    value,
+                    date_format,
+                ).date()
+            except ValueError:
+                continue
+
+        raise ValueError(
+            f"Unsupported weather date format: {value}"
+        )
+
+    @staticmethod
+    def load_csv(
+        csv_file: str | Path,
+    ) -> list[WeatherDay]:
 
         csv_file = Path(csv_file)
 
@@ -33,30 +60,49 @@ class WeatherLoader:
 
         weather = []
 
-        with csv_file.open("r", newline="") as f:
+        with csv_file.open(
+            "r",
+            newline="",
+        ) as f:
 
             reader = csv.DictReader(f)
 
-            missing = WeatherLoader.REQUIRED_COLUMNS - set(reader.fieldnames or [])
+            missing = (
+                WeatherLoader.REQUIRED_COLUMNS
+                - set(reader.fieldnames or [])
+            )
 
             if missing:
                 raise ValueError(
-                    f"Missing required columns: {sorted(missing)}"
+                    f"Missing required columns: "
+                    f"{sorted(missing)}"
                 )
 
             for row in reader:
 
-                rainfall = row.get("rainfall_mm", "")
+                rainfall = row.get(
+                    "rainfall_mm",
+                    "",
+                )
 
                 weather.append(
                     WeatherDay(
-                        weather_date=datetime.strptime(
-                            row["date"],
-                            "%Y-%m-%d",
-                        ).date(),
-                        tmin=float(row["tmin"]),
-                        tmax=float(row["tmax"]),
-                        rainfall_mm=float(rainfall) if rainfall else 0.0,
+                        weather_date=(
+                            WeatherLoader._parse_date(
+                                row["date"]
+                            )
+                        ),
+                        tmin=float(
+                            row["tmin"]
+                        ),
+                        tmax=float(
+                            row["tmax"]
+                        ),
+                        rainfall_mm=(
+                            float(rainfall)
+                            if rainfall
+                            else 0.0
+                        ),
                     )
                 )
 
