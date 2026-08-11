@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mainali APDM Forecast</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7f5;
+            color: #1f2933;
+        }
+
+        header {
+            background: #173f35;
+            color: white;
+            padding: 24px 32px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        header p {
+            margin: 8px 0 0;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 28px;
+        }
+
+        .notice {
+            background: #eef5f1;
+            border-left: 5px solid #315f52;
+            padding: 14px 18px;
+            margin-bottom: 22px;
+            line-height: 1.5;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 22px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #cbd5d1;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            border: 0;
+            border-radius: 6px;
+            background: #216653;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #184f40;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .metric {
+            background: #f6f8f7;
+            padding: 17px;
+            border-radius: 8px;
+        }
+
+        .metric span {
+            display: block;
+            font-size: 13px;
+            color: #66736e;
+        }
+
+        .metric strong {
+            display: block;
+            margin-top: 6px;
+            font-size: 23px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 410px;
+        }
+
+        .interpretation {
+            margin-top: 22px;
+            padding: 16px;
+            background: #f6f8f7;
+            border-radius: 8px;
+            line-height: 1.55;
+        }
+
+        #status {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        footer {
+            max-width: 1250px;
+            margin: 10px auto 30px;
+            padding: 0 28px;
+            font-size: 13px;
+            color: #66736e;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 850px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Mainali APDM Forecast</h1>
+    <p>Amblypelta Population Dynamics Model</p>
+</header>
+
+<div class="container">
+
+    <div class="notice">
+        <strong>Research-based decision support tool.</strong>
+        The model uses temperature-dependent development, survival and
+        reproduction to simulate Amblypelta population dynamics.
+        Outputs should be interpreted together with field monitoring,
+        crop phenology and local conditions.
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+
+            <h2>Forecast settings</h2>
+
+            <label for="location">Location</label>
+
+            <select id="location">
+                <option value="sample_weather.csv">
+                    Demonstration weather
+                </option>
+                <option value="nnsw_malua_2025_2026.csv">
+                    Malua — Northern NSW
+                </option>
+                <option value="nnsw_knockrow_2025_2026.csv">
+                    Knockrow — Northern NSW
+                </option>
+                <option value="nnsw_dorey_2025_2026.csv">
+                    Dorey — Northern NSW
+                </option>
+            </select>
+
+            <label for="initialEggs">
+                Initial population
+            </label>
+
+            <input
+                id="initialEggs"
+                type="number"
+                min="0"
+                step="1"
+                value="100"
+            >
+
+            <button id="runButton" onclick="runForecast()">
+                Run population simulation
+            </button>
+
+            <div id="status">
+                Ready.
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Population forecast</h2>
+
+            <div class="metrics">
+
+                <div class="metric">
+                    <span>Days simulated</span>
+                    <strong id="days">—</strong>
+                </div>
+
+                <div class="metric">
+                    <span>Final population index</span>
+                    <strong id="finalPopulation">—</strong>
+                </div>
+
+                <div class="metric">
+                    <span>Peak population index</span>
+                    <strong id="peakPopulation">—</strong>
+                </div>
+
+            </div>
+
+            <div class="chart-container">
+                <canvas id="populationChart"></canvas>
+            </div>
+
+            <div class="interpretation" id="interpretation">
+                Select a location and run the model to display the
+                simulated population trajectory.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    APDM is a mechanistic research model. Modelled population values are
+    not an economic threshold or pesticide recommendation. Field
+    observations remain essential for management decisions.
+</footer>
+
+
+<script>
+
+let populationChart = null;
+
+/*
+During Codespaces development this automatically points to
+the forwarded FastAPI port belonging to the same Codespace.
+*/
+function getApiBase() {
+    return window.location.origin;
+}
+
+async function runForecast() {
+
+    const button =
+        document.getElementById("runButton");
+
+    const status =
+        document.getElementById("status");
+
+    const location =
+        document.getElementById("location").value;
+
+    const initialEggs =
+        Number(
+            document.getElementById(
+                "initialEggs"
+            ).value
+        );
+
+    button.disabled = true;
+    status.textContent =
+        "Running population model...";
+
+    try {
+
+        const response = await fetch(
+            getApiBase() + "/simulate",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    weather_file:
+                        "data/weather/" + location,
+                    initial_eggs:
+                        initialEggs
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.detail ||
+                "Simulation failed."
+            );
+        }
+
+        updateDashboard(data);
+
+        status.textContent =
+            "Simulation completed successfully.";
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+            "Error: " + error.message;
+    }
+
+    finally {
+
+        button.disabled = false;
+    }
+}
+
+
+function updateDashboard(data) {
+
+    document.getElementById(
+        "days"
+    ).textContent =
+        data.days_simulated;
+
+    document.getElementById(
+        "finalPopulation"
+    ).textContent =
+        Number(
+            data.final_population
+        ).toFixed(1);
+
+
+    const peak = Math.max(
+        ...data.results.map(
+            row => row.total_population
+        )
+    );
+
+    document.getElementById(
+        "peakPopulation"
+    ).textContent =
+        peak.toFixed(1);
+
+
+    const labels =
+        data.results.map(
+            row => row.date
+        );
+
+
+    const totalPopulation =
+        data.results.map(
+            row => row.total_population
+        );
+
+
+    const adults =
+        data.results.map(
+            row =>
+                row.adult_females +
+                row.adult_males
+        );
+
+
+    const eggs =
+        data.results.map(
+            row => row.egg
+        );
+
+
+    const nymphs =
+        data.results.map(
+            row =>
+                row.n1 +
+                row.n2 +
+                row.n3 +
+                row.n4 +
+                row.n5
+        );
+
+
+    if (populationChart) {
+        populationChart.destroy();
+    }
+
+
+    const ctx =
+        document.getElementById(
+            "populationChart"
+        );
+
+
+    populationChart =
+        new Chart(
+            ctx,
+            {
+                type: "line",
+
+                data: {
+
+                    labels: labels,
+
+                    datasets: [
+                        {
+                            label:
+                                "Total population",
+                            data:
+                                totalPopulation,
+                            borderWidth: 3,
+                            pointRadius: 0
+                        },
+
+                        {
+                            label:
+                                "Eggs",
+                            data:
+                                eggs,
+                            borderWidth: 2,
+                            pointRadius: 0
+                        },
+
+                        {
+                            label:
+                                "Nymphs",
+                            data:
+                                nymphs,
+                            borderWidth: 2,
+                            pointRadius: 0
+                        },
+
+                        {
+                            label:
+                                "Adults",
+                            data:
+                                adults,
+                            borderWidth: 2,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    interaction: {
+                        mode: "index",
+                        intersect: false
+                    },
+
+                    scales: {
+
+                        x: {
+                            title: {
+                                display: true,
+                                text: "Date"
+                            }
+                        },
+
+                        y: {
+                            beginAtZero: true,
+
+                            title: {
+                                display: true,
+                                text:
+                                    "Modelled population index"
+                            }
+                        }
+                    }
+                }
+            }
+        );
+
+
+    const final =
+        Number(
+            data.final_population
+        );
+
+
+    document.getElementById(
+        "interpretation"
+    ).innerHTML =
+        "<strong>Model interpretation:</strong> " +
+        "The simulation represents the expected " +
+        "relative population trajectory under the " +
+        "selected weather sequence. The population " +
+        "index should not be interpreted as insects " +
+        "per tree or as an economic threshold. " +
+        "Field monitoring is required before making " +
+        "management decisions.";
+}
+
+</script>
+
+</body>
+</html>
