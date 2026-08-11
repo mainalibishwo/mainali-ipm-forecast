@@ -1,0 +1,10 @@
+file,region,records,start_date,end_date,missing_dates,qa_flags
+western_downs_01.csv,Western Downs,6061,2010-01-01,2026-08-05,0,0
+wide_bay_gympie_01.csv,Wide Bay–Gympie,6061,2010-01-01,2026-08-05,0,0
+glass_house_mountains_01.csv,Glass House Mountains,6061,2010-01-01,2026-08-05,0,0
+wide_bay_gympie_02.csv,Wide Bay–Gympie,6061,2010-01-01,2026-08-05,0,0
+bundaberg_region_01.csv,Bundaberg Region,6061,2010-01-01,2026-08-05,0,0
+northern_nsw_01.csv,Northern NSW,6061,2010-01-01,2026-08-05,0,0
+northern_nsw_02.csv,Northern NSW,6061,2010-01-01,2026-08-05,0,0
+northern_nsw_03.csv,Northern NSW,6061,2010-01-01,2026-08-05,0,0
+northern_nsw_04.csv,Northern NSW,6061,2010-01-01,2026-08-05,0,0

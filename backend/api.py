@@ -9,6 +9,7 @@ Connects the population simulation engine to the web interface.
 from __future__ import annotations
 
 from pathlib import Path
+from datetime import datetime
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -49,23 +50,71 @@ LOCATIONS = {
         "region": "Demonstration",
         "weather_file": "sample_weather.csv",
     },
+
+    # Existing Northern NSW test series
     "malua": {
-        "name": "Malua",
+        "name": "Northern NSW — Malua test series",
         "region": "Northern NSW",
         "weather_file": "nnsw_malua_2025_2026.csv",
     },
     "knockrow": {
-        "name": "Knockrow",
+        "name": "Northern NSW — Knockrow test series",
         "region": "Northern NSW",
         "weather_file": "nnsw_knockrow_2025_2026.csv",
     },
     "dorey": {
-        "name": "Dorey",
+        "name": "Northern NSW — Dorey test series",
         "region": "Northern NSW",
         "weather_file": "nnsw_dorey_2025_2026.csv",
     },
-}
 
+    # Historical de-identified regional weather series
+    "western_downs_01": {
+        "name": "Western Downs — Site 1",
+        "region": "Western Downs",
+        "weather_file": "western_downs_01.csv",
+    },
+    "wide_bay_gympie_01": {
+        "name": "Wide Bay–Gympie — Site 1",
+        "region": "Wide Bay–Gympie",
+        "weather_file": "wide_bay_gympie_01.csv",
+    },
+    "wide_bay_gympie_02": {
+        "name": "Wide Bay–Gympie — Site 2",
+        "region": "Wide Bay–Gympie",
+        "weather_file": "wide_bay_gympie_02.csv",
+    },
+    "glass_house_mountains_01": {
+        "name": "Glass House Mountains — Site 1",
+        "region": "Glass House Mountains",
+        "weather_file": "glass_house_mountains_01.csv",
+    },
+    "bundaberg_region_01": {
+        "name": "Bundaberg Region — Site 1",
+        "region": "Bundaberg Region",
+        "weather_file": "bundaberg_region_01.csv",
+    },
+    "northern_nsw_01": {
+        "name": "Northern NSW — Site 1",
+        "region": "Northern NSW",
+        "weather_file": "northern_nsw_01.csv",
+    },
+    "northern_nsw_02": {
+        "name": "Northern NSW — Site 2",
+        "region": "Northern NSW",
+        "weather_file": "northern_nsw_02.csv",
+    },
+    "northern_nsw_03": {
+        "name": "Northern NSW — Site 3",
+        "region": "Northern NSW",
+        "weather_file": "northern_nsw_03.csv",
+    },
+    "northern_nsw_04": {
+        "name": "Northern NSW — Site 4",
+        "region": "Northern NSW",
+        "weather_file": "northern_nsw_04.csv",
+    },
+}
 
 class SimulationRequest(BaseModel):
     """Input supplied by the forecasting interface."""
@@ -76,6 +125,9 @@ class SimulationRequest(BaseModel):
         default=100.0,
         ge=0,
     )
+
+    start_date: str | None = None
+    end_date: str | None = None
 
 
 @app.get("/")
@@ -158,13 +210,35 @@ def simulate(
 
         engine = manager.build_engine()
 
-        # -----------------------------------------
+             # -----------------------------------------
         # Load weather
         # -----------------------------------------
 
         weather = WeatherLoader.load_csv(
             weather_path
         )
+
+        if request.start_date:
+            start_date = datetime.strptime(
+                request.start_date,
+                "%Y-%m-%d",
+            ).date()
+
+            weather = [
+                day for day in weather
+                if day.weather_date >= start_date
+            ]
+
+        if request.end_date:
+            end_date = datetime.strptime(
+                request.end_date,
+                "%Y-%m-%d",
+            ).date()
+
+            weather = [
+                day for day in weather
+                if day.weather_date <= end_date
+            ]
 
         if not weather:
             raise ValueError(

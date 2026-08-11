@@ -270,8 +270,23 @@ class PopulationSimulationEngine:
             )
         )
 
+               # -----------------------------------------------------
+        # 3. Reproduction by females already present
         # -----------------------------------------------------
-        # 3. Add newly emerged adults
+
+        # Females emerging today must not reproduce on
+        # the same day that they enter the adult stage.
+        eggs_produced = (
+            self.fecundity_model.daily_egg_production(
+                next_females,
+                temperature,
+            )
+        )
+
+        next_immature["Egg"] += eggs_produced
+
+        # -----------------------------------------------------
+        # 4. Add newly emerged adults
         # -----------------------------------------------------
 
         newly_emerged_females = (
@@ -293,19 +308,6 @@ class PopulationSimulationEngine:
             next_males.get(0, 0.0)
             + newly_emerged_males
         )
-
-        # -----------------------------------------------------
-        # 4. Reproduction
-        # -----------------------------------------------------
-
-        eggs_produced = (
-            self.fecundity_model.daily_egg_production(
-                next_females,
-                temperature,
-            )
-        )
-
-        next_immature["Egg"] += eggs_produced
 
         # -----------------------------------------------------
         # 5. Approximate thermal accumulation
