@@ -26,4 +26,5 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     dashboard = Path("frontend/index.html").read_text()
     assert "Sampling-equivalent bugs/ha" in dashboard
     assert "perTree*density" in dashboard
+    assert "10000/(row*within)" in dashboard
     assert "Not a true whole-canopy population estimate" in dashboard

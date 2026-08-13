@@ -41,6 +41,8 @@ An optional field-sampling panel converts a standardized count into bugs per
 100 sampled trees and a **sampling-equivalent bugs/ha** value using a
 user-entered orchard tree density. This field estimate is kept separate from
 the model forecast and is not presented as true whole-canopy abundance.
+Tree density can be entered directly or calculated from row and within-row
+spacing as `10,000 / (row spacing × tree spacing)`.
 
 ## Validation
 
