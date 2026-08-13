@@ -56,3 +56,26 @@ def test_adult_initialization_rejects_nonzero_eggs():
         simulate(request)
 
     assert "initial_eggs=0" in str(exc_info.value.detail)
+
+
+def test_adult_suppression_scenario_reports_daylength():
+    request = SimulationRequest(
+        location="malua",
+        initialization="overwintering_adults",
+        initial_eggs=0,
+        initial_adult_females_by_age={30: 50},
+        initial_adult_males_by_age={30: 50},
+        seasonal_activation="central",
+        start_date="2024-07-01",
+        end_date="2024-07-02",
+    )
+
+    result = simulate(request)
+
+    assert result["seasonal_activation"] == "central"
+    assert result["seasonal_latitude"] == -28.8
+    assert all(row["daylength_hours"] for row in result["results"])
+    assert all(
+        0.0 <= row["reproductive_activation"] <= 1.0
+        for row in result["results"]
+    )

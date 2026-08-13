@@ -18,6 +18,10 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 from backend.engine.parameter_manager import ParameterManager
+from backend.engine.seasonality import (
+    build_daylength_sensitivity_profile,
+    daylength_hours,
+)
 from backend.engine.simulation import SimulationState
 from backend.engine.weather_loader import WeatherLoader
 
@@ -57,16 +61,19 @@ LOCATIONS = {
         "name": "Northern NSW — Malua test series",
         "region": "Northern NSW",
         "weather_file": "nnsw_malua_2025_2026.csv",
+        "seasonal_latitude": -28.8,
     },
     "knockrow": {
         "name": "Northern NSW — Knockrow test series",
         "region": "Northern NSW",
         "weather_file": "nnsw_knockrow_2025_2026.csv",
+        "seasonal_latitude": -28.8,
     },
     "dorey": {
         "name": "Northern NSW — Dorey test series",
         "region": "Northern NSW",
         "weather_file": "nnsw_dorey_2025_2026.csv",
+        "seasonal_latitude": -28.8,
     },
 
     # Historical de-identified regional weather series
@@ -139,6 +146,13 @@ class SimulationRequest(BaseModel):
     initial_adult_males_by_age: dict[int, float] = Field(
         default_factory=dict,
     )
+
+    seasonal_activation: Literal[
+        "reference",
+        "conservative",
+        "central",
+        "permissive",
+    ] = "reference"
 
     start_date: str | None = None
     end_date: str | None = None
@@ -223,6 +237,25 @@ def simulate(
         ).load()
 
         engine = manager.build_engine()
+
+        seasonal_latitude = location_info.get("seasonal_latitude")
+        if request.seasonal_activation != "reference":
+            if request.initialization != "overwintering_adults":
+                raise ValueError(
+                    "Seasonal suppression scenarios require "
+                    "overwintering-adult initialization."
+                )
+            if seasonal_latitude is None:
+                raise ValueError(
+                    "No preregistered seasonal latitude is available "
+                    "for this location."
+                )
+            engine.reproductive_activation_model = (
+                build_daylength_sensitivity_profile(
+                    request.seasonal_activation,
+                    seasonal_latitude,
+                )
+            )
 
              # -----------------------------------------
         # Load weather
@@ -445,6 +478,15 @@ def simulate(
                         result.reproductive_activation
                     ),
 
+                    "daylength_hours": (
+                        daylength_hours(
+                            weather_day.weather_date,
+                            seasonal_latitude,
+                        )
+                        if seasonal_latitude is not None
+                        else None
+                    ),
+
                     "degree_days": (
                         state
                         .cumulative_degree_days
@@ -503,6 +545,22 @@ def simulate(
 
             "initialization": (
                 request.initialization
+            ),
+
+            "seasonal_activation": (
+                request.seasonal_activation
+            ),
+
+            "seasonal_latitude": (
+                seasonal_latitude
+            ),
+
+            "seasonal_latitude_basis": (
+                "Northern NSW regional representative; "
+                "day length is an environmental covariate, "
+                "not a fitted biological parameter."
+                if seasonal_latitude is not None
+                else None
             ),
 
             "initial_adult_females_by_age": (
