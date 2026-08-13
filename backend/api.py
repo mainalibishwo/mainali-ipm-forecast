@@ -15,6 +15,7 @@ from typing import Literal
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from backend.engine.parameter_manager import ParameterManager
@@ -44,6 +45,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/assets", StaticFiles(directory="frontend/assets"), name="assets")
 
 
 PARAMETER_DIR = Path("data/parameters")

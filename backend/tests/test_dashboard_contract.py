@@ -30,6 +30,15 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "Not a true whole-canopy population estimate" in dashboard
     assert "autumn population-phenology signal" in dashboard
     assert "harvest overlap does not by itself indicate maximum crop damage" in dashboard
+    assert "displayDate(peaks[0])" in dashboard
+    assert "year:'numeric'" in dashboard
+    assert "Hort Innovation macadamia research and development levy" in dashboard
+    assert "Christopher Themsen, Chris Fuller and Jarrah Coates" in dashboard
+    assert "Cervantes Agritech" in dashboard
+    assert "/assets/macquarie-university-logo.svg" in dashboard
+    assert "/assets/hort-innovation-logo.svg" in dashboard
+    assert Path("frontend/assets/macquarie-university-logo.svg").is_file()
+    assert Path("frontend/assets/hort-innovation-logo.svg").is_file()
 
 
 def test_grower_manual_covers_model_and_decision_boundaries():
@@ -43,5 +52,8 @@ def test_grower_manual_covers_model_and_decision_boundaries():
         "not a statistical confidence interval",
         "does not provide a pesticide recommendation",
         "Print or save as PDF",
+        "Funding and acknowledgements",
+        "Christopher Themsen, Chris Fuller and Jarrah Coates",
+        "Cervantes Agritech",
     ):
         assert required in guide
