@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: mife-forecast
+    runtime: docker
+    plan: starter
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.5

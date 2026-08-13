@@ -31,6 +31,11 @@ uvicorn backend.api:app --host 0.0.0.0 --port 8000
 
 Then open `http://localhost:8000`.
 
+For the grower-pilot production architecture and release checklist, see
+`docs/MIFE_grower_pilot_deployment.md`. The repository includes a non-root
+Docker image and a Render service blueprint; Cloudflare remains the DNS, TLS
+and edge-protection layer for `forecast.mainaliipm.com`.
+
 The dashboard offers stored research weather for reproducible runs and live
 regional weather for operational forecasts. Live mode merges Open-Meteo data
 at representative regional coordinates into de-identified regional series.

@@ -1,0 +1,14 @@
+.git
+.test-env
+.pytest_cache
+__pycache__
+*.pyc
+*.bundle
+data/output
+data/validation
+docs
+scripts
+backend/tests
+data/parameters/*.backup_*
+data/parameters/*.numbers
+data/weather/backup_old_nnsw
