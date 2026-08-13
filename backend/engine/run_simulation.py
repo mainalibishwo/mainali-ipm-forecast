@@ -103,6 +103,10 @@ def run_simulation(
                 "adult_males": state.adult_males,
 
                 "eggs_produced": result.eggs_produced,
+                "potential_eggs": result.potential_eggs,
+                "reproductive_activation": (
+                    result.reproductive_activation
+                ),
                 "newly_emerged_adults": (
                     result.newly_emerged_adults
                 ),

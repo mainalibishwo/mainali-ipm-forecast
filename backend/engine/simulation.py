@@ -41,6 +41,11 @@ from typing import Mapping
 
 from backend.engine.adult import AdultSurvivalModel
 from backend.engine.fecundity import FecundityModel
+from backend.engine.seasonality import (
+    NoSeasonalSuppression,
+    ReproductiveActivationModel,
+    bounded_activation,
+)
 from backend.engine.survival import SurvivalModel
 from backend.engine.thermal import ThermalDevelopmentModel
 from backend.engine.weather import WeatherDay
@@ -119,6 +124,9 @@ class DailySimulationResult:
 
     eggs_produced: float
 
+    potential_eggs: float
+    reproductive_activation: float
+
     newly_emerged_adults: float
 
     newly_emerged_females: float
@@ -141,6 +149,9 @@ class PopulationSimulationEngine:
             Mapping[float, float],
         ],
         female_proportion: float,
+        reproductive_activation_model: (
+            ReproductiveActivationModel | None
+        ) = None,
     ) -> None:
 
         if not 0.0 < female_proportion < 1.0:
@@ -164,6 +175,11 @@ class PopulationSimulationEngine:
 
         self.female_proportion = float(
             female_proportion
+        )
+        self.reproductive_activation_model = (
+            reproductive_activation_model
+            if reproductive_activation_model is not None
+            else NoSeasonalSuppression()
         )
 
     @staticmethod
@@ -520,11 +536,22 @@ class PopulationSimulationEngine:
         # reproduction has been calculated. They therefore cannot
         # reproduce on their day of adult emergence.
 
-        eggs_produced = (
+        potential_eggs = (
             self.fecundity_model.daily_egg_production(
                 next_females,
                 temperature,
             )
+        )
+
+        reproductive_activation = bounded_activation(
+            self.reproductive_activation_model,
+            weather.weather_date,
+            temperature,
+        )
+
+        eggs_produced = (
+            potential_eggs
+            * reproductive_activation
         )
 
         if eggs_produced < 0:
@@ -621,6 +648,10 @@ class PopulationSimulationEngine:
         return DailySimulationResult(
             state=next_state,
             eggs_produced=eggs_produced,
+            potential_eggs=potential_eggs,
+            reproductive_activation=(
+                reproductive_activation
+            ),
             newly_emerged_adults=(
                 newly_emerged_adults
             ),

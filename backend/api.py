@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from datetime import datetime
+from typing import Literal
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -124,6 +125,19 @@ class SimulationRequest(BaseModel):
     initial_eggs: float = Field(
         default=100.0,
         ge=0,
+    )
+
+    initialization: Literal[
+        "eggs",
+        "overwintering_adults",
+    ] = "eggs"
+
+    initial_adult_females_by_age: dict[int, float] = Field(
+        default_factory=dict,
+    )
+
+    initial_adult_males_by_age: dict[int, float] = Field(
+        default_factory=dict,
     )
 
     start_date: str | None = None
@@ -249,6 +263,57 @@ def simulate(
         # Initial population
         # -----------------------------------------
 
+        females_by_age = {
+            int(age): float(abundance)
+            for age, abundance
+            in request.initial_adult_females_by_age.items()
+        }
+        males_by_age = {
+            int(age): float(abundance)
+            for age, abundance
+            in request.initial_adult_males_by_age.items()
+        }
+
+        for label, distribution in (
+            ("female", females_by_age),
+            ("male", males_by_age),
+        ):
+            for age, abundance in distribution.items():
+                if age < 0:
+                    raise ValueError(
+                        f"Initial {label} adult age cannot be negative."
+                    )
+                if age > engine.adult_survival_model.maximum_age_days:
+                    raise ValueError(
+                        f"Initial {label} adult age {age} exceeds "
+                        "the frozen maximum adult age."
+                    )
+                if abundance < 0:
+                    raise ValueError(
+                        f"Initial {label} adult abundance cannot be negative."
+                    )
+
+        if request.initialization == "eggs":
+            if females_by_age or males_by_age:
+                raise ValueError(
+                    "Adult age distributions require "
+                    "initialization='overwintering_adults'."
+                )
+            initial_eggs = float(request.initial_eggs)
+            females_by_age = {0: 0.0}
+            males_by_age = {0: 0.0}
+        else:
+            if request.initial_eggs != 0:
+                raise ValueError(
+                    "Set initial_eggs=0 for overwintering-adult initialization."
+                )
+            if sum(females_by_age.values()) + sum(males_by_age.values()) <= 0:
+                raise ValueError(
+                    "Overwintering-adult initialization requires "
+                    "a positive adult abundance."
+                )
+            initial_eggs = 0.0
+
         state = SimulationState(
             simulation_date=(
                 weather[0].weather_date
@@ -256,7 +321,7 @@ def simulate(
 
             immature={
                 "Egg": float(
-                    request.initial_eggs
+                    initial_eggs
                 ),
                 "N1": 0.0,
                 "N2": 0.0,
@@ -265,13 +330,9 @@ def simulate(
                 "N5": 0.0,
             },
 
-            adult_female_by_age={
-                0: 0.0,
-            },
+            adult_female_by_age=females_by_age,
 
-            adult_male_by_age={
-                0: 0.0,
-            },
+            adult_male_by_age=males_by_age,
 
             cumulative_degree_days=0.0,
         )
@@ -376,6 +437,14 @@ def simulate(
                         result.eggs_produced
                     ),
 
+                    "potential_eggs": (
+                        result.potential_eggs
+                    ),
+
+                    "reproductive_activation": (
+                        result.reproductive_activation
+                    ),
+
                     "degree_days": (
                         state
                         .cumulative_degree_days
@@ -429,7 +498,19 @@ def simulate(
             ),
 
             "initial_eggs": (
-                request.initial_eggs
+                initial_eggs
+            ),
+
+            "initialization": (
+                request.initialization
+            ),
+
+            "initial_adult_females_by_age": (
+                females_by_age
+            ),
+
+            "initial_adult_males_by_age": (
+                males_by_age
             ),
 
             "final_population": (
