@@ -35,6 +35,8 @@ For the grower-pilot production architecture and release checklist, see
 `docs/MIFE_grower_pilot_deployment.md`. The repository includes a non-root
 Docker image and a Render service blueprint; Cloudflare remains the DNS, TLS
 and edge-protection layer for `forecast.mainaliipm.com`.
+The initial blueprint uses free pilot hosting and can be upgraded without
+changing the public URL or biological model.
 
 The dashboard offers stored research weather for reproducible runs and live
 regional weather for operational forecasts. Live mode merges Open-Meteo data

@@ -17,6 +17,11 @@ The frozen biological parameter files must not be edited during deployment.
    custom-domain target and provides TLS and edge protection.
 4. The service health check is `GET /health`.
 
+The initial pilot uses Render's Free web-service instance. It may spin down
+after inactivity and the first returning visitor may experience a cold-start
+delay. Upgrade the hosting instance when usage or availability expectations
+increase; this does not require charging growers or changing MIFE biology.
+
 The repository includes a non-root production `Dockerfile`. Only runtime files
 needed by the dashboard are copied into the image. Research outputs, tests,
 backups and bundle-transfer files are excluded.
