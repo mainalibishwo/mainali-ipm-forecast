@@ -81,46 +81,55 @@ LOCATIONS = {
         "name": "Western Downs — Site 1",
         "region": "Western Downs",
         "weather_file": "western_downs_01.csv",
+        "seasonal_latitude": -27.5,
     },
     "wide_bay_gympie_01": {
         "name": "Wide Bay–Gympie — Site 1",
         "region": "Wide Bay–Gympie",
         "weather_file": "wide_bay_gympie_01.csv",
+        "seasonal_latitude": -25.5,
     },
     "wide_bay_gympie_02": {
         "name": "Wide Bay–Gympie — Site 2",
         "region": "Wide Bay–Gympie",
         "weather_file": "wide_bay_gympie_02.csv",
+        "seasonal_latitude": -25.5,
     },
     "glass_house_mountains_01": {
         "name": "Glass House Mountains — Site 1",
         "region": "Glass House Mountains",
         "weather_file": "glass_house_mountains_01.csv",
+        "seasonal_latitude": -26.9,
     },
     "bundaberg_region_01": {
         "name": "Bundaberg Region — Site 1",
         "region": "Bundaberg Region",
         "weather_file": "bundaberg_region_01.csv",
+        "seasonal_latitude": -24.9,
     },
     "northern_nsw_01": {
         "name": "Northern NSW — Site 1",
         "region": "Northern NSW",
         "weather_file": "northern_nsw_01.csv",
+        "seasonal_latitude": -28.8,
     },
     "northern_nsw_02": {
         "name": "Northern NSW — Site 2",
         "region": "Northern NSW",
         "weather_file": "northern_nsw_02.csv",
+        "seasonal_latitude": -28.8,
     },
     "northern_nsw_03": {
         "name": "Northern NSW — Site 3",
         "region": "Northern NSW",
         "weather_file": "northern_nsw_03.csv",
+        "seasonal_latitude": -28.8,
     },
     "northern_nsw_04": {
         "name": "Northern NSW — Site 4",
         "region": "Northern NSW",
         "weather_file": "northern_nsw_04.csv",
+        "seasonal_latitude": -28.8,
     },
 }
 
@@ -186,6 +195,19 @@ def locations():
                 "id": location_id,
                 "name": values["name"],
                 "region": values["region"],
+                "supports_seasonal_forecast": (
+                    "seasonal_latitude" in values
+                ),
+                "weather_start": (
+                    WeatherLoader.load_csv(
+                        WEATHER_DIR / values["weather_file"]
+                    )[0].weather_date.isoformat()
+                ),
+                "weather_end": (
+                    WeatherLoader.load_csv(
+                        WEATHER_DIR / values["weather_file"]
+                    )[-1].weather_date.isoformat()
+                ),
             }
             for location_id, values
             in LOCATIONS.items()
