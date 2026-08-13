@@ -31,6 +31,12 @@ uvicorn backend.api:app --host 0.0.0.0 --port 8000
 
 Then open `http://localhost:8000`.
 
+The dashboard offers stored research weather for reproducible runs and live
+regional weather for operational forecasts. Live mode merges Open-Meteo data
+at representative regional coordinates into de-identified regional series.
+Malua, Knockrow and Dorey remain validation series and are deliberately
+excluded from live forecasting. See `docs/MIFE_live_weather_protocol.md`.
+
 ## Validation
 
 ```bash

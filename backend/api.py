@@ -24,6 +24,7 @@ from backend.engine.seasonality import (
 )
 from backend.engine.simulation import SimulationState
 from backend.engine.weather_loader import WeatherLoader
+from backend.engine.live_weather import fetch_open_meteo, merge_weather
 
 
 app = FastAPI(
@@ -62,18 +63,21 @@ LOCATIONS = {
         "region": "Northern NSW",
         "weather_file": "nnsw_malua_2025_2026.csv",
         "seasonal_latitude": -28.8,
+        "validation_only": True,
     },
     "knockrow": {
         "name": "Northern NSW — Knockrow test series",
         "region": "Northern NSW",
         "weather_file": "nnsw_knockrow_2025_2026.csv",
         "seasonal_latitude": -28.8,
+        "validation_only": True,
     },
     "dorey": {
         "name": "Northern NSW — Dorey test series",
         "region": "Northern NSW",
         "weather_file": "nnsw_dorey_2025_2026.csv",
         "seasonal_latitude": -28.8,
+        "validation_only": True,
     },
 
     # Historical de-identified regional weather series
@@ -82,54 +86,63 @@ LOCATIONS = {
         "region": "Western Downs",
         "weather_file": "western_downs_01.csv",
         "seasonal_latitude": -27.5,
+        "live_coordinate": (-26.74, 150.63),
     },
     "wide_bay_gympie_01": {
         "name": "Wide Bay–Gympie — Site 1",
         "region": "Wide Bay–Gympie",
         "weather_file": "wide_bay_gympie_01.csv",
         "seasonal_latitude": -25.5,
+        "live_coordinate": (-25.90, 152.60),
     },
     "wide_bay_gympie_02": {
         "name": "Wide Bay–Gympie — Site 2",
         "region": "Wide Bay–Gympie",
         "weather_file": "wide_bay_gympie_02.csv",
         "seasonal_latitude": -25.5,
+        "live_coordinate": (-25.90, 152.60),
     },
     "glass_house_mountains_01": {
         "name": "Glass House Mountains — Site 1",
         "region": "Glass House Mountains",
         "weather_file": "glass_house_mountains_01.csv",
         "seasonal_latitude": -26.9,
+        "live_coordinate": (-26.90, 152.95),
     },
     "bundaberg_region_01": {
         "name": "Bundaberg Region — Site 1",
         "region": "Bundaberg Region",
         "weather_file": "bundaberg_region_01.csv",
         "seasonal_latitude": -24.9,
+        "live_coordinate": (-24.87, 152.35),
     },
     "northern_nsw_01": {
         "name": "Northern NSW — Site 1",
         "region": "Northern NSW",
         "weather_file": "northern_nsw_01.csv",
         "seasonal_latitude": -28.8,
+        "live_coordinate": (-28.80, 153.40),
     },
     "northern_nsw_02": {
         "name": "Northern NSW — Site 2",
         "region": "Northern NSW",
         "weather_file": "northern_nsw_02.csv",
         "seasonal_latitude": -28.8,
+        "live_coordinate": (-28.80, 153.40),
     },
     "northern_nsw_03": {
         "name": "Northern NSW — Site 3",
         "region": "Northern NSW",
         "weather_file": "northern_nsw_03.csv",
         "seasonal_latitude": -28.8,
+        "live_coordinate": (-28.80, 153.40),
     },
     "northern_nsw_04": {
         "name": "Northern NSW — Site 4",
         "region": "Northern NSW",
         "weather_file": "northern_nsw_04.csv",
         "seasonal_latitude": -28.8,
+        "live_coordinate": (-28.80, 153.40),
     },
 }
 
@@ -162,6 +175,8 @@ class SimulationRequest(BaseModel):
         "central",
         "permissive",
     ] = "reference"
+
+    weather_source: Literal["stored", "live"] = "stored"
 
     start_date: str | None = None
     end_date: str | None = None
@@ -197,6 +212,14 @@ def locations():
                 "region": values["region"],
                 "supports_seasonal_forecast": (
                     "seasonal_latitude" in values
+                ),
+                "supports_live_weather": (
+                    "live_coordinate" in values
+                ),
+                "series_role": (
+                    "validation"
+                    if values.get("validation_only")
+                    else "regional"
                 ),
                 "weather_start": (
                     WeatherLoader.load_csv(
@@ -279,13 +302,23 @@ def simulate(
                 )
             )
 
-             # -----------------------------------------
+        # -----------------------------------------
         # Load weather
         # -----------------------------------------
 
         weather = WeatherLoader.load_csv(
             weather_path
         )
+
+        live_metadata = None
+        if request.weather_source == "live":
+            coordinate = location_info.get("live_coordinate")
+            if coordinate is None:
+                raise ValueError(
+                    "Live weather is available only for regional series."
+                )
+            live_weather, live_metadata = fetch_open_meteo(*coordinate)
+            weather = merge_weather(weather, live_weather)
 
         if request.start_date:
             start_date = datetime.strptime(
@@ -576,6 +609,9 @@ def simulate(
             "seasonal_latitude": (
                 seasonal_latitude
             ),
+
+            "weather_source": request.weather_source,
+            "live_weather_metadata": live_metadata,
 
             "seasonal_latitude_basis": (
                 "Northern NSW regional representative; "
