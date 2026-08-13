@@ -32,6 +32,9 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "harvest overlap does not by itself indicate maximum crop damage" in dashboard
     assert "displayDate(peaks[0])" in dashboard
     assert "year:'numeric'" in dashboard
+    assert "normalizeComposition" in dashboard
+    assert "rescaled to total 100% each day" in dashboard
+    assert "156 multi-season events" in dashboard
     assert "Hort Innovation macadamia research and development levy" in dashboard
     assert "Christopher Themsen, Chris Fuller and Jarrah Coates" in dashboard
     assert "Cervantes Agritech" in dashboard
@@ -55,5 +58,10 @@ def test_grower_manual_covers_model_and_decision_boundaries():
         "Funding and acknowledgements",
         "Christopher Themsen, Chris Fuller and Jarrah Coates",
         "Cervantes Agritech",
+        "156 de-identified orchard/block-date events",
+        "18 Northern NSW events from 2025–26",
+        "AUC 0.731",
+        "not proof of operational accuracy",
+        "rescaled to total exactly 100% each day",
     ):
         assert required in guide
