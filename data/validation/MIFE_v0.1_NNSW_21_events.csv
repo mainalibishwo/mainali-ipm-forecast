@@ -1,0 +1,22 @@
+site,sample_date,raw_visit_date,date_source,containers_sampled,FSB,BSB,Amblypelta_total,last_fsb_mgmt_date,days_since_fsb_mgmt
+malua,2024-08-02,2024-08-02,phenology-date proxy,28,0,0,0,,
+malua,2024-09-04,2024-09-06,positive-container matched,33,1,0,1,,
+malua,2024-10-10,2024-10-10,phenology-date proxy,31,0,0,0,,
+malua,2024-11-05,2024-11-07,positive-container matched,33,1,0,1,,
+malua,2024-12-15,2024-12-15,phenology-date proxy,26,0,0,0,,
+malua,2025-01-15,2025-01-16,positive-container matched,31,1,0,1,,
+malua,2025-02-11,2025-02-14,positive-container matched,29,1,0,1,,
+knockrow,2024-07-30,2024-08-02,positive-container matched,15,1,0,1,,
+knockrow,2024-09-06,2024-09-06,phenology-date proxy,28,0,0,0,,
+knockrow,2024-10-08,2024-10-10,positive-container matched,35,2,0,2,,
+knockrow,2024-11-07,2024-11-07,phenology-date proxy,27,0,0,0,2024-10-29,9
+knockrow,2024-12-13,2024-12-15,positive-container matched,15,1,0,1,2024-12-06,7
+knockrow,2025-01-16,2025-01-16,phenology-date proxy,19,0,0,0,2024-12-06,41
+knockrow,2025-02-13,2025-02-13,phenology-date proxy,24,0,0,0,2025-01-17,27
+dorey,2024-08-02,2024-08-02,phenology-date proxy,17,0,0,0,,
+dorey,2024-09-05,2024-09-05,phenology-date proxy,24,0,0,0,,
+dorey,2024-10-10,2024-10-10,phenology-date proxy,29,0,0,0,2024-10-06,4
+dorey,2024-11-07,2024-11-07,phenology-date proxy,13,0,0,0,2024-10-06,32
+dorey,2024-12-15,2024-12-15,phenology-date proxy,12,0,0,0,2024-11-08,37
+dorey,2025-01-16,2025-01-16,positive-container matched,18,1,0,1,2024-11-08,69
+dorey,2025-02-14,2025-02-14,phenology-date proxy,17,0,0,0,2025-01-20,25
