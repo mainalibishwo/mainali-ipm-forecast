@@ -189,6 +189,15 @@ def root():
     )
 
 
+@app.get("/manual")
+def manual():
+    """Serve the grower manual alongside the dashboard."""
+
+    return FileResponse(
+        "frontend/manual.html"
+    )
+
+
 @app.get("/health")
 def health():
     return {

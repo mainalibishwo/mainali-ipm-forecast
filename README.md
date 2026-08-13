@@ -37,6 +37,8 @@ Docker image and a Render service blueprint; Cloudflare remains the DNS, TLS
 and edge-protection layer for `forecast.mainaliipm.com`.
 The initial blueprint uses free pilot hosting and can be upgraded without
 changing the public URL or biological model.
+The dashboard links to a printable grower manual at `/manual`, covering the
+model structure, process snapshot, interpretation and decision boundaries.
 
 The dashboard offers stored research weather for reproducible runs and live
 regional weather for operational forecasts. Live mode merges Open-Meteo data

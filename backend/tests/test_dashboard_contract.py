@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from backend.api import LOCATIONS, locations
+from backend.api import LOCATIONS, locations, manual
 
 
 def test_all_operational_regions_have_seasonal_latitude():
@@ -30,3 +30,18 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "Not a true whole-canopy population estimate" in dashboard
     assert "autumn population-phenology signal" in dashboard
     assert "harvest overlap does not by itself indicate maximum crop damage" in dashboard
+
+
+def test_grower_manual_covers_model_and_decision_boundaries():
+    response = manual()
+    assert response.path.endswith("frontend/manual.html")
+    guide = Path("frontend/manual.html").read_text()
+    for required in (
+        "Process snapshot",
+        "Why nine scenarios?",
+        "Sampling-equivalent bugs/ha",
+        "not a statistical confidence interval",
+        "does not provide a pesticide recommendation",
+        "Print or save as PDF",
+    ):
+        assert required in guide

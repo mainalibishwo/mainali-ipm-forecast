@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MIFE Grower Manual and Model Guide</title>
+<style>
+:root{--ink:#17251f;--muted:#5f6d67;--green:#164d3f;--green2:#23745e;--pale:#edf5f1;--amber:#fff3df;--line:#d8e3de;--bg:#f3f6f4}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.58 Arial,sans-serif}header{background:var(--green);color:#fff;padding:28px max(22px,calc((100% - 1000px)/2))}header h1{font-size:30px;margin:0 0 5px}header p{margin:4px 0;opacity:.9}header a{color:#fff}.wrap{max-width:1000px;margin:auto;padding:24px}.card{background:#fff;border-radius:12px;padding:24px;margin-bottom:18px;box-shadow:0 2px 10px #153d2d12}h2{font-size:23px;margin:0 0 14px;border-bottom:2px solid var(--pale);padding-bottom:8px}h3{font-size:17px;margin:21px 0 8px}p{margin:8px 0 12px}ul,ol{padding-left:22px}li{margin:5px 0}.notice{background:var(--pale);border-left:5px solid var(--green2);padding:15px 17px}.caution{background:var(--amber);border-left:5px solid #b47419;padding:15px 17px}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:15px}.step{border:1px solid var(--line);border-radius:9px;padding:13px;background:#fafcfb}.step b{display:block;color:var(--green2);font-size:12px;text-transform:uppercase;letter-spacing:.04em}.step strong{display:block;margin:4px 0}.formula{padding:12px 15px;background:#f5f7f6;border-radius:7px;font-family:Georgia,serif;font-size:17px;text-align:center}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;margin:10px 0}th,td{border:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}th{background:var(--pale)}.small{font-size:12px;color:var(--muted)}.actions{display:flex;gap:10px;margin-top:14px}.button{display:inline-block;padding:10px 14px;border-radius:7px;background:var(--green2);color:#fff;text-decoration:none;font-weight:bold;border:0;cursor:pointer}.button.alt{background:#e7efeb;color:var(--ink)}footer{max-width:1000px;margin:0 auto 30px;padding:0 24px;color:var(--muted);font-size:12px}@media(max-width:760px){.flow{grid-template-columns:1fr 1fr}.wrap{padding:14px}.card{padding:18px}}@media(max-width:450px){.flow{grid-template-columns:1fr}}@media print{body{background:#fff;font-size:11pt}header{padding:18px;color:#000;background:#fff;border-bottom:3px solid var(--green)}header a,.actions{display:none}.wrap{max-width:none;padding:12px}.card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}.flow{grid-template-columns:1fr 1fr}.step{break-inside:avoid}a{color:#000;text-decoration:none}}
+</style></head><body>
+<header><h1>MIFE Grower Manual</h1><p>Mainali IPM Forecast Engine · Grower pilot v0.1</p><p><a href="/">← Return to forecast dashboard</a></p></header>
+<main class="wrap">
+<section class="card notice"><strong>Purpose.</strong> MIFE is a research-based decision-support tool for understanding weather-driven <em>Amblypelta</em> population phenology and relative pressure. It supports—but does not replace—field monitoring, crop-stage assessment, professional judgement or label-compliant pest management.</section>
+
+<section class="card"><h2>Process snapshot</h2><div class="flow">
+<div class="step"><b>Step 1</b><strong>Select place</strong>Choose a regional weather series. Named Malua, Knockrow and Dorey records are validation series.</div>
+<div class="step"><b>Step 2</b><strong>Select weather</strong>Use the stored research record or live regional weather where available.</div>
+<div class="step"><b>Step 3</b><strong>Set period</strong>Select the forecast dates and enter crop susceptibility.</div>
+<div class="step"><b>Step 4</b><strong>Run ensemble</strong>MIFE runs nine predefined seasonal-activation and adult-age scenarios.</div>
+<div class="step"><b>Step 5</b><strong>Read phenology</strong>Review relative pressure, peak window and developmental-stage composition.</div>
+<div class="step"><b>Step 6</b><strong>Add monitoring</strong>Optionally enter bugs collected, trees sampled and orchard spacing.</div>
+<div class="step"><b>Step 7</b><strong>Compare evidence</strong>Interpret model phenology alongside actual orchard observations and crop stage.</div>
+<div class="step"><b>Step 8</b><strong>Use judgement</strong>Consider damage, management history, hotspots and registered options. MIFE does not recommend spraying.</div>
+</div><div class="actions"><a class="button" href="/">Open dashboard</a><button class="button alt" onclick="window.print()">Print or save as PDF</button></div></section>
+
+<section class="card"><h2>How to use the dashboard</h2>
+<ol><li><strong>Weather series:</strong> choose the closest appropriate regional series. Numbered sites are de-identified regional series, not exact orchard stations.</li><li><strong>Weather input:</strong> choose <em>Stored research record</em> for reproducible retrospective runs or <em>Live regional weather</em> for the recent/forecast window.</li><li><strong>Reference starting adults:</strong> retain 100 for routine use. It controls scale internally; the displayed phenology is normalized.</li><li><strong>Period:</strong> select dates within the available range. Live daily weather extends only through the provider's forecast horizon.</li><li><strong>Crop susceptibility:</strong> identify whether susceptible flowers or nuts are present. This is an interpretation overlay and does not change insect biology.</li><li>Click <strong>Run nine-scenario forecast</strong>, then examine both chart tabs and the interpretation text.</li></ol>
+<div class="caution"><strong>Do not choose Malua, Knockrow or Dorey as if they were live orchard forecasts.</strong> They are named validation series retained for scientific comparison. Live weather is restricted to representative regional series.</div></section>
+
+<section class="card"><h2>What the model does</h2>
+<p>MIFE is a deterministic, daily, stage-structured population model. It follows eggs, five nymphal instars and age-structured female and male adults. Each day it combines weather with measured biological schedules to update development, survival, adult ageing and reproduction.</p>
+<div class="table-wrap"><table><thead><tr><th>Component</th><th>Implementation</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Immature development</td><td>Temperature-dependent stage duration; linear interpolation between measured temperatures. Four points approximate a fluctuating daily temperature curve.</td><td>Warmer or cooler days alter physiological progress through Egg and N1–N5.</td></tr>
+<tr><td>Immature survival</td><td>Stage- and temperature-specific conditional survival interpolated from the frozen parameter tables.</td><td>Only a proportion progresses successfully through each stage.</td></tr>
+<tr><td>Adult survival</td><td>Daily age- and temperature-specific conditional survival for females and males, with daily age classes.</td><td>Adult persistence depends on both age and temperature.</td></tr>
+<tr><td>Fecundity</td><td>Female-age and temperature-dependent egg production. Reproduction is zero at or below 15°C and at or above 35°C in the frozen model.</td><td>Female reproductive output changes through adult life and with temperature.</td></tr>
+<tr><td>Seasonal activation</td><td>Three preregistered smooth day-length profiles: conservative, central and permissive.</td><td>Represents uncertainty in winter reproductive suppression without forcing reproduction to start on a calendar date.</td></tr>
+<tr><td>Initialization</td><td>Overwintering adults distributed across young, mixed and older adult-age bands.</td><td>Represents uncertainty in the physiological age of adults entering the annual run.</td></tr>
+</tbody></table></div>
+<p class="small">Temperatures outside measured immature-development and survival ranges are clamped to the nearest observed boundary rather than extrapolated. The seasonal activation curves are uncertainty scenarios, not fitted photoperiod parameters and not evidence of diapause.</p></section>
+
+<section class="card"><h2>Why nine scenarios?</h2>
+<p>The dashboard combines three seasonal-activation profiles with three overwintering-adult age bands, producing nine predefined scenarios. All nine are reported together; none is selected because it fits a particular orchard observation best.</p>
+<div class="table-wrap"><table><thead><tr><th>Adult-age band</th><th>Starting ages represented</th><th>Activation profiles</th></tr></thead><tbody><tr><td>Young</td><td>0–30 days</td><td rowspan="3">Conservative, central and permissive</td></tr><tr><td>Mixed</td><td>0–90 days</td></tr><tr><td>Older</td><td>60–120 days</td></tr></tbody></table></div>
+<p>The dark chart line is the median of the nine scenarios. The shaded area is their full range. It is a <strong>sensitivity envelope, not a statistical confidence interval</strong>.</p></section>
+
+<section class="card"><h2>How to interpret outputs</h2>
+<div class="table-wrap"><table><thead><tr><th>Output</th><th>Use</th><th>Do not interpret as</th></tr></thead><tbody>
+<tr><td>Relative pressure (0–100)</td><td>Position within each scenario's own annual mobile-population trajectory.</td><td>Bugs per tree, bugs per hectare or an economic threshold.</td></tr>
+<tr><td>Ensemble peak window</td><td>Range of peak dates across the nine scenarios.</td><td>A guaranteed outbreak date.</td></tr>
+<tr><td>Stage composition</td><td>Median proportional composition of eggs, nymphs and adults.</td><td>A direct field count.</td></tr>
+<tr><td>Crop overlap</td><td>User-entered crop susceptibility interpreted alongside insect phenology.</td><td>A treatment instruction.</td></tr>
+<tr><td>Sampling-equivalent bugs/ha</td><td>Standardizes a field sample using sampled trees and planting density.</td><td>The true whole-canopy population.</td></tr>
+</tbody></table></div>
+<div class="notice"><strong>Autumn peak:</strong> a March–April maximum is biologically plausible because an autumn generation is documented and fruitspotting bugs can remain present into April. Its overlap with harvest does not automatically indicate the period of greatest crop damage. The existing 21 observations ended in February, so the exact autumn maximum remains a modelled prediction requiring March–May validation.</div></section>
+
+<section class="card"><h2>Field sampling estimate</h2>
+<p>Enter the number of <em>Amblypelta</em> collected and the number of trees sampled using one comparable standardized sample per tree. Enter known trees/ha, or calculate planting density from spacing:</p>
+<div class="formula">Trees/ha = 10,000 ÷ (row spacing in m × within-row tree spacing in m)</div>
+<div class="formula">Sampling-equivalent bugs/ha = (bugs collected ÷ trees sampled) × trees/ha</div>
+<p><strong>Example:</strong> 3 bugs from 30 sampled trees at 8 m × 4 m spacing gives 312.5 trees/ha and 31.25 sampling-equivalent bugs/ha.</p>
+<p class="small">This assumes sampled trees represent the orchard and sampling effort/detection are comparable. It does not correct for insects missed elsewhere in the canopy.</p></section>
+
+<section class="card"><h2>Weather and location guidance</h2>
+<ul><li><strong>Stored weather</strong> is the reproducible baseline used for retrospective analysis.</li><li><strong>Live regional weather</strong> merges recent and forecast daily minimum temperature, maximum temperature and precipitation from Open-Meteo at representative regional coordinates.</li><li>The live coordinate is a regional environmental proxy, not an inferred private orchard location.</li><li>Weather data alone do not represent immigration, insecticide effects, host movement, orchard-edge effects or local microclimate.</li><li>Queensland regional application should be treated as exploratory where local species composition or ecology differs from the Northern NSW evidence base.</li></ul></section>
+
+<section class="card"><h2>Validation status and limitations</h2>
+<p>MIFE v0.1 has been compared with 21 field events: seven each from Malua, Knockrow and Dorey. Eight events were positive for fruitspotting bug. The dataset is useful diagnostically but is sparse, includes management-confounded observations and ends before the predicted autumn peak.</p>
+<ul><li>The model is strongest as a weather-driven phenology and relative-pressure prototype.</li><li>It is not calibrated to absolute orchard abundance.</li><li>The closed population engine has no active immigration/emigration term.</li><li>It cannot distinguish locally surviving adults from adults moving into an orchard.</li><li>No consistent economic threshold is encoded.</li><li>March–May standardized sampling is the priority for testing the autumn peak.</li></ul>
+<p>No thermal-development, survival, fecundity or other frozen biological parameter was changed in response to the 21-event diagnostic or the autumn-peak literature review.</p></section>
+
+<section class="card caution"><h2>Decision guidelines</h2>
+<ul><li>Confirm field presence and fresh damage; do not act on the forecast alone.</li><li>Consider crop stage and tissue susceptibility separately from population pressure.</li><li>Review recent insecticide applications, weather, orchard edges/hotspots and nearby alternative hosts.</li><li>Use registered products strictly according to the current label or permit and seek qualified agronomic advice.</li><li>Consider pollinators, parasitoids and predators before disruptive actions.</li><li>Record observations so future versions can be independently validated.</li></ul>
+<strong>MIFE does not provide a pesticide recommendation and does not replace professional judgement.</strong></section>
+
+<section class="card"><h2>Selected evidence</h2><ul>
+<li><a href="https://www.dpird.nsw.gov.au/__data/assets/pdf_file/0004/1258933/Fruit-spotting-bug-in-macadamia.pdf">NSW DPI: Fruit spotting bug in macadamia</a></li>
+<li><a href="https://academic.oup.com/jipm/article/14/1/26/7465189">Ellis et al. (2023): Biology and ecology of insect pests in macadamia</a></li>
+<li><a href="https://australianmacadamias.org/industry/about-growers/growing-processing-macadamias">Australian Macadamia Society: Growing and processing macadamias</a></li>
+<li><a href="https://open-meteo.com/">Open-Meteo weather provider</a></li>
+</ul><p class="small">Manual version 0.1 · Prepared for the initial MIFE grower pilot · 13 August 2026.</p></section>
+</main><footer>MIFE · Mainali IPM Forecast Engine · Research-based decision support</footer>
+</body></html>
