@@ -37,6 +37,11 @@ at representative regional coordinates into de-identified regional series.
 Malua, Knockrow and Dorey remain validation series and are deliberately
 excluded from live forecasting. See `docs/MIFE_live_weather_protocol.md`.
 
+An optional field-sampling panel converts a standardized count into bugs per
+100 sampled trees and a **sampling-equivalent bugs/ha** value using a
+user-entered orchard tree density. This field estimate is kept separate from
+the model forecast and is not presented as true whole-canopy abundance.
+
 ## Validation
 
 ```bash
