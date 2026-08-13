@@ -28,3 +28,5 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "perTree*density" in dashboard
     assert "10000/(row*within)" in dashboard
     assert "Not a true whole-canopy population estimate" in dashboard
+    assert "autumn population-phenology signal" in dashboard
+    assert "harvest overlap does not by itself indicate maximum crop damage" in dashboard

@@ -44,6 +44,12 @@ the model forecast and is not presented as true whole-canopy abundance.
 Tree density can be entered directly or calculated from row and within-row
 spacing as `10,000 / (row spacing × tree spacing)`.
 
+The Northern NSW March–April maximum is labelled a **modelled autumn population
+peak**, distinct from harvest timing and crop-damage risk. The literature and
+required March–May field-validation protocol are documented in
+`docs/MIFE_autumn_peak_evidence_and_validation.md`. No biological parameter was
+adjusted following this review.
+
 ## Validation
 
 ```bash
