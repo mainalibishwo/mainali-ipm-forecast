@@ -38,7 +38,7 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "BBCH 50–59 — inflorescence emergence" in dashboard
     assert "BBCH 60–69 — flowering" in dashboard
     assert "cropGuidance" in dashboard
-    assert "does not alter the insect forecast" in dashboard
+    assert "does not alter insect biology or the forecast curve" in dashboard
     assert "Hort Innovation macadamia research and development levy" in dashboard
     assert "Christopher Themsen, Chris Fuller and Jarrah Coates" in dashboard
     assert "Cervantes Agritech" in dashboard
