@@ -1,0 +1,5 @@
+scope,site_id,events,positive_events,total_confirmed_targets,auc_detection_vs_median_mobile_index,spearman_count_vs_median_mobile_index,median_index_positive_events,median_index_nondetection_events,events_with_explicit_fsb_management_within_21d,interpretation_limit
+pooled,pooled,18,5,7,0.7307692307692307,0.3451557919938299,9.093308911542003,3.5518957709681733,2,Diagnostic out-of-time validation; no fitted threshold and observations end before March-May peak
+site,malua,7,2,3,0.5,-0.044946657497549475,6.703739234879929,8.077916890894581,0,Diagnostic out-of-time validation; no fitted threshold and observations end before March-May peak
+site,knockrow,5,1,1,0.75,0.35355339059327373,9.093308911542003,4.549972799131109,1,Diagnostic out-of-time validation; no fitted threshold and observations end before March-May peak
+site,dorey,6,2,3,1.0,0.8451542547285166,33.53369609775514,2.9172569678803733,1,Diagnostic out-of-time validation; no fitted threshold and observations end before March-May peak

@@ -1,0 +1,9 @@
+season,region,events,first_date,last_date,events_with_recovered_samples,confirmed_target_positive_events,ambiguous_positive_events,confirmed_fsb_total,confirmed_bsb_total,ambiguous_total
+2023-24,cq,26,2023-09-07,2024-02-09,26,5,0,16,5,0
+2023-24,nnsw,6,2023-09-14,2024-01-24,6,2,0,5,0,0
+2023-24,seq,12,2023-08-25,2024-02-13,12,3,0,6,1,0
+2024-25,cq,46,2024-07-04,2025-01-09,36,0,13,0,0,27
+2024-25,nnsw,21,2024-08-02,2025-02-14,21,3,4,4,0,4
+2024-25,seq,15,2024-07-19,2025-01-29,15,0,11,0,0,33
+2025-26,nnsw,18,2025-07-14,2026-02-18,18,5,0,7,0,0
+2025-26,seq,12,2025-08-07,2026-01-21,12,5,5,6,2,9
