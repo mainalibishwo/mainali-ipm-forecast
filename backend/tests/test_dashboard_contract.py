@@ -28,8 +28,8 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "perTree*density" in dashboard
     assert "10000/(row*within)" in dashboard
     assert "Not a true whole-canopy population estimate" in dashboard
-    assert "autumn population-phenology signal" in dashboard
-    assert "harvest overlap does not by itself indicate maximum crop damage" in dashboard
+    assert "modelled autumn carryover signal" in dashboard
+    assert "not automatically the period of greatest crop damage" in dashboard
     assert "displayDate(peaks[0])" in dashboard
     assert "year:'numeric'" in dashboard
     assert "normalizeComposition" in dashboard
@@ -37,7 +37,11 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "156 multi-season events" in dashboard
     assert "BBCH 50–59 — inflorescence emergence" in dashboard
     assert "BBCH 60–69 — flowering" in dashboard
+    assert "BBCH 00–39" not in dashboard
+    assert "vegetative:{" not in dashboard
     assert "cropGuidance" in dashboard
+    assert "Crop-risk interpretation" in dashboard
+    assert "seasonal carryover and overwintering population development" in dashboard
     assert "does not alter insect biology or the forecast curve" in dashboard
     assert "Hort Innovation macadamia research and development levy" in dashboard
     assert "Christopher Themsen, Chris Fuller and Jarrah Coates" in dashboard
@@ -68,6 +72,8 @@ def test_grower_manual_covers_model_and_decision_boundaries():
         "not proof of operational accuracy",
         "rescaled to total exactly 100% each day",
         "Macadamia BBCH crop-stage guide",
+        "BBCH 00–39 is intentionally omitted",
+        "Autumn carryover forecast",
         "Inflorescence emergence",
         "Fruit set/very young nuts",
         "calendar timing must not be transferred directly",
