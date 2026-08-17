@@ -33,6 +33,13 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "displayDate(peaks[0])" in dashboard
     assert "year:'numeric'" in dashboard
     assert "normalizeComposition" in dashboard
+    assert "Regional population outlook" in dashboard
+    assert "Current regional pressure" in dashboard
+    assert "7- and 14-day outlook" in dashboard
+    assert "Forecast weather available through" in dashboard
+    assert "Modelled seasonal population peak" in dashboard
+    assert "forecastPeriodPlugin" in dashboard
+    assert "index===final" in dashboard
     assert "rescaled to total 100% each day" in dashboard
     assert "156 multi-season events" in dashboard
     assert "BBCH 50–59 — inflorescence emergence" in dashboard
@@ -78,5 +85,8 @@ def test_grower_manual_covers_model_and_decision_boundaries():
         "Fruit set/very young nuts",
         "calendar timing must not be transferred directly",
         "Roppolo et al. (2024)",
+        "Current regional pressure and direction",
+        "7- and 14-day outlook",
+        "actual available end date",
     ):
         assert required in guide
