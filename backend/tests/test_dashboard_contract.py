@@ -40,6 +40,8 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "Modelled seasonal population peak" in dashboard
     assert "forecastPeriodPlugin" in dashboard
     assert "index===final" in dashboard
+    assert "Reference starting adults" not in dashboard
+    assert "total=100" in dashboard
     assert "rescaled to total 100% each day" in dashboard
     assert "156 multi-season events" in dashboard
     assert "BBCH 50–59 — inflorescence emergence" in dashboard
@@ -88,5 +90,6 @@ def test_grower_manual_covers_model_and_decision_boundaries():
         "Current regional pressure and direction",
         "7- and 14-day outlook",
         "actual available end date",
+        "fixed internal reference population of 100 adults",
     ):
         assert required in guide
