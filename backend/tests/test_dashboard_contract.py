@@ -43,6 +43,8 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "index===final" in dashboard
     assert "Reference starting adults" not in dashboard
     assert "total=100" in dashboard
+    assert "Mainali IPM Forecast Engine" not in dashboard
+    assert "Spotting bug phenology and relative population pressure" in dashboard
     assert "rescaled to total 100% each day" in dashboard
     assert "156 multi-season events" in dashboard
     assert "BBCH 50–59 — inflorescence emergence" in dashboard
@@ -66,6 +68,7 @@ def test_grower_manual_covers_model_and_decision_boundaries():
     response = manual()
     assert response.path.endswith("frontend/manual.html")
     guide = Path("frontend/manual.html").read_text()
+    assert "Mainali IPM Forecast Engine" not in guide
     for required in (
         "Process snapshot",
         "Why nine scenarios?",
