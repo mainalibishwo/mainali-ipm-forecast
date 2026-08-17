@@ -18,6 +18,29 @@ def test_parse_open_meteo_daily_payload():
     assert rows[1].tmax == 22.0
 
 
+def test_parse_open_meteo_trims_incomplete_forecast_tail():
+    rows = _parse_daily({"daily": {
+        "time": ["2026-08-29", "2026-08-30", "2026-08-31"],
+        "temperature_2m_min": [10.0, 11.0, None],
+        "temperature_2m_max": [22.0, 23.0, None],
+        "precipitation_sum": [0.0, 1.0, None],
+    }})
+    assert [row.weather_date.isoformat() for row in rows] == [
+        "2026-08-29",
+        "2026-08-30",
+    ]
+
+
+def test_parse_open_meteo_rejects_payload_without_temperature():
+    with pytest.raises(ValueError, match="no complete daily temperature"):
+        _parse_daily({"daily": {
+            "time": ["2026-08-31"],
+            "temperature_2m_min": [None],
+            "temperature_2m_max": [None],
+            "precipitation_sum": [None],
+        }})
+
+
 def test_live_weather_overwrites_same_stored_date():
     stored = [WeatherDay(date(2026, 8, 13), 8, 20, 0)]
     live = [WeatherDay(date(2026, 8, 13), 9, 22, 4)]

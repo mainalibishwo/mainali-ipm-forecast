@@ -28,15 +28,27 @@ def _parse_daily(payload: dict) -> list[WeatherDay]:
     )
     if not fields[0] or len({len(values) for values in fields}) != 1:
         raise ValueError("Live weather response contains incomplete daily data.")
-    return [
-        WeatherDay(
-            weather_date=datetime.strptime(day, "%Y-%m-%d").date(),
-            tmin=float(tmin),
-            tmax=float(tmax),
-            rainfall_mm=float(rain or 0.0),
+    rows = []
+    for day, tmin, tmax, rain in zip(*fields):
+        # Open-Meteo can publish the final forecast date before every daily
+        # aggregate has been populated.  A null temperature cannot drive the
+        # biological engine, so stop at the last continuous complete day
+        # rather than failing the whole live forecast or creating a date gap.
+        if tmin is None or tmax is None:
+            break
+        rows.append(
+            WeatherDay(
+                weather_date=datetime.strptime(day, "%Y-%m-%d").date(),
+                tmin=float(tmin),
+                tmax=float(tmax),
+                rainfall_mm=float(rain or 0.0),
+            )
         )
-        for day, tmin, tmax, rain in zip(*fields)
-    ]
+    if not rows:
+        raise ValueError(
+            "Live weather response contains no complete daily temperature data."
+        )
+    return rows
 
 
 def fetch_open_meteo(
@@ -75,8 +87,8 @@ def fetch_open_meteo(
             "provider": "Open-Meteo",
             "provider_url": "https://open-meteo.com/",
             "model_selection": "best_match",
-            "latitude": float(payload.get("latitude", latitude)),
-            "longitude": float(payload.get("longitude", longitude)),
+            "latitude": float(payload.get("latitude") or latitude),
+            "longitude": float(payload.get("longitude") or longitude),
             "timezone": payload.get("timezone", "Australia/Sydney"),
             "retrieved_at_utc": datetime.now(timezone.utc).isoformat(),
             "forecast_end": rows[-1].weather_date.isoformat(),
