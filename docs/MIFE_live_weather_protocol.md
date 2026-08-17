@@ -25,7 +25,6 @@ initialisation bands or seasonal-activation profiles.
 
 | MIFE region | Latitude | Longitude |
 |---|---:|---:|
-| Western Downs | -26.74 | 150.63 |
 | Wide Bay–Gympie | -25.90 | 152.60 |
 | Glass House Mountains | -26.90 | 152.95 |
 | Bundaberg Region | -24.87 | 152.35 |

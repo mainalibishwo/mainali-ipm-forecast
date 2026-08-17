@@ -84,13 +84,6 @@ LOCATIONS = {
     },
 
     # Historical de-identified regional weather series
-    "western_downs_01": {
-        "name": "Western Downs — Site 1",
-        "region": "Western Downs",
-        "weather_file": "western_downs_01.csv",
-        "seasonal_latitude": -27.5,
-        "live_coordinate": (-26.74, 150.63),
-    },
     "wide_bay_gympie_01": {
         "name": "Wide Bay–Gympie — Site 1",
         "region": "Wide Bay–Gympie",
