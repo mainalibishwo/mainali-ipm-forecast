@@ -36,7 +36,7 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "normalizeComposition" in dashboard
     assert "Regional population outlook" in dashboard
     assert "Population activity today" in dashboard
-    assert "Expected change over 7 and 14 days" in dashboard
+    assert "Predicted activity in 7 and 14 days" in dashboard
     assert "Live weather available through" in dashboard
     assert "Predicted seasonal peak window" in dashboard
     assert "forecastPeriodPlugin" in dashboard
@@ -59,6 +59,11 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "Population activity index (0–100)" in dashboard
     assert "Relative mobile pressure" not in dashboard
     assert "Show regional outlook" in dashboard
+    assert "Low: 0 to &lt;10" in dashboard
+    assert "Moderate: 10 to &lt;30" in dashboard
+    assert "High: 30 to &lt;70" in dashboard
+    assert "Very high: 70–100" in dashboard
+    assert "Changes under 2 index points are described as stable" in dashboard
     assert "s.value='malua'" not in dashboard
     assert "seasonal carryover and overwintering population development" in dashboard
     assert "does not change the predicted population" in dashboard
@@ -99,11 +104,13 @@ def test_grower_manual_covers_model_and_decision_boundaries():
         "calendar timing must not be transferred directly",
         "Roppolo et al. (2024)",
         "Population activity today and direction",
-        "7- and 14-day outlook",
+        "Predicted activity in 7 and 14 days",
         "actual available end date",
         "fixed internal reference population of 100 adults",
         "Which spotting bugs are covered?",
         "Population activity index (0–100)",
         "Most field validation evidence is for FSB",
+        "Activity-level guide",
+        "communication bands for the relative index",
     ):
         assert required in guide
