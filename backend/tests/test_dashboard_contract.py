@@ -28,17 +28,17 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "Sampling-equivalent bugs/ha" in dashboard
     assert "perTree*density" in dashboard
     assert "10000/(row*within)" in dashboard
-    assert "Not a true whole-canopy population estimate" in dashboard
+    assert "not a whole-orchard count" in dashboard
     assert "modelled autumn carryover signal" in dashboard
     assert "not automatically the period of greatest crop damage" in dashboard
     assert "displayDate(peaks[0])" in dashboard
     assert "year:'numeric'" in dashboard
     assert "normalizeComposition" in dashboard
     assert "Regional population outlook" in dashboard
-    assert "Current regional pressure" in dashboard
-    assert "7- and 14-day outlook" in dashboard
-    assert "Forecast weather available through" in dashboard
-    assert "Modelled seasonal population peak" in dashboard
+    assert "Population activity today" in dashboard
+    assert "Expected change over 7 and 14 days" in dashboard
+    assert "Live weather available through" in dashboard
+    assert "Predicted seasonal peak window" in dashboard
     assert "forecastPeriodPlugin" in dashboard
     assert "index===final" in dashboard
     assert "Reference starting adults" not in dashboard
@@ -52,9 +52,16 @@ def test_dashboard_labels_field_density_as_sampling_equivalent():
     assert "BBCH 00–39" not in dashboard
     assert "vegetative:{" not in dashboard
     assert "cropGuidance" in dashboard
-    assert "Crop-risk interpretation" in dashboard
+    assert "What this means for monitoring" in dashboard
+    assert "What the 0–100 index means" in dashboard
+    assert "fruitspotting bug (FSB" in dashboard
+    assert "banana spotting bug (BSB" in dashboard
+    assert "Population activity index (0–100)" in dashboard
+    assert "Relative mobile pressure" not in dashboard
+    assert "Show regional outlook" in dashboard
+    assert "s.value='malua'" not in dashboard
     assert "seasonal carryover and overwintering population development" in dashboard
-    assert "does not alter insect biology or the forecast curve" in dashboard
+    assert "does not change the predicted population" in dashboard
     assert "Hort Innovation macadamia research and development levy" in dashboard
     assert "Christopher Themsen, Chris Fuller and Jarrah Coates" in dashboard
     assert "Cervantes Agritech" in dashboard
@@ -70,7 +77,7 @@ def test_grower_manual_covers_model_and_decision_boundaries():
     guide = Path("frontend/manual.html").read_text()
     assert "Mainali IPM Forecast Engine" not in guide
     for required in (
-        "Process snapshot",
+        "Four steps for growers",
         "Why nine scenarios?",
         "Sampling-equivalent bugs/ha",
         "not a statistical confidence interval",
@@ -91,9 +98,12 @@ def test_grower_manual_covers_model_and_decision_boundaries():
         "Fruit set/very young nuts",
         "calendar timing must not be transferred directly",
         "Roppolo et al. (2024)",
-        "Current regional pressure and direction",
+        "Population activity today and direction",
         "7- and 14-day outlook",
         "actual available end date",
         "fixed internal reference population of 100 adults",
+        "Which spotting bugs are covered?",
+        "Population activity index (0–100)",
+        "Most field validation evidence is for FSB",
     ):
         assert required in guide
