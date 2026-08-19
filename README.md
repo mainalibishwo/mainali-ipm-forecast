@@ -46,12 +46,19 @@ at representative regional coordinates into de-identified regional series.
 Malua, Knockrow and Dorey remain validation series and are deliberately
 excluded from live forecasting. See `docs/MIFE_live_weather_protocol.md`.
 
-An optional field-sampling panel converts a standardized count into bugs per
-100 sampled trees and a **sampling-equivalent bugs/ha** value using a
-user-entered orchard tree density. This field estimate is kept separate from
-the model forecast and is not presented as true whole-canopy abundance.
-Tree density can be entered directly or calculated from row and within-row
-spacing as `10,000 / (row spacing × tree spacing)`.
+The field-sampling panel combines FSB and BSB and standardizes the result to
+the project's usual **four-tree drop-sheet sampling set**. A preliminary
+Northern NSW count-rate calibration is updated with today's orchard sample and
+carried along the regional 7- and 14-day trajectory. The resulting values are
+labelled field-adjusted planning estimates, not whole-orchard abundance,
+economic thresholds or treatment triggers. Recent FSB/BSB-targeted management
+is flagged but is not assigned an unvalidated efficacy correction. See
+`docs/MIFE_field_adjustment_protocol.md`.
+
+An optional nut-damage check reports FSB/BSB injury as a numerator,
+denominator, percentage and approximate binomial interval. Damage remains
+separate from the live-insect forecast because it can accumulate before the
+sampling date.
 
 The Northern NSW March–April maximum is labelled a **modelled autumn population
 peak**, distinct from harvest timing and crop-damage risk. The literature and

@@ -23,12 +23,19 @@ def test_locations_endpoint_marks_seasonal_support():
     assert by_id["wide_bay_gympie_01"]["series_role"] == "regional"
 
 
-def test_dashboard_labels_field_density_as_sampling_equivalent():
+def test_dashboard_separates_regional_field_and_damage_outputs():
     dashboard = Path("frontend/index.html").read_text()
-    assert "Sampling-equivalent bugs/ha" in dashboard
-    assert "perTree*density" in dashboard
-    assert "10000/(row*within)" in dashboard
-    assert "not a whole-orchard count" in dashboard
+    assert "Observed per four-tree set" in dashboard
+    assert "Field-adjusted in 7 days" in dashboard
+    assert "Field-adjusted in 14 days" in dashboard
+    assert "FSB/BSB collected" in dashboard
+    assert "priorTreeStrength:4" in dashboard
+    assert "fieldAdjustedRate" in dashboard
+    assert "Optional nut-damage check" in dashboard
+    assert "Approx. 95% interval" in dashboard
+    assert "wilson(success,total)" in dashboard
+    assert "Sampling-equivalent bugs/ha" not in dashboard
+    assert "trees per hectare" not in dashboard.lower()
     assert "modelled autumn carryover signal" in dashboard
     assert "not automatically the period of greatest crop damage" in dashboard
     assert "displayDate(peaks[0])" in dashboard
@@ -82,9 +89,11 @@ def test_grower_manual_covers_model_and_decision_boundaries():
     guide = Path("frontend/manual.html").read_text()
     assert "Mainali IPM Forecast Engine" not in guide
     for required in (
-        "Four steps for growers",
+        "Five steps for growers",
         "Why nine scenarios?",
-        "Sampling-equivalent bugs/ha",
+        "Observed bugs per four-tree set",
+        "Field-adjusted sampling outlook",
+        "Nut-damage check",
         "not a statistical confidence interval",
         "does not provide a pesticide recommendation",
         "Print or save as PDF",
