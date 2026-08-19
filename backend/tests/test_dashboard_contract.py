@@ -103,6 +103,8 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert "Phenology-informed monitoring priority" in dashboard
     assert "Phenology-adjusted crop-exposure outlook" in dashboard
     assert "cropExposureAt" in dashboard
+    assert "CROP_TISSUE" in dashboard
+    assert "Regional activity is" in dashboard
     assert "renderCropExposure" in dashboard
     assert "assumed to remain representative across this short outlook" in dashboard
     assert "does not artificially rescale the regional insect population" in dashboard
