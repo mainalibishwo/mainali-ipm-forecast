@@ -3,10 +3,10 @@
 ## Purpose
 
 The grower dashboard updates the regional weather-driven trajectory with a
-current standardized drop-sheet observation. The output is expressed as
-combined FSB/BSB per four-tree drop-sheet sampling set. It is a planning
-estimate, not abundance per hectare, an economic threshold or a treatment
-recommendation.
+current, consistently collected tree-based field observation. The output is
+expressed as combined FSB/BSB sampling-equivalent bugs/ha. This is a practical
+area-standardized planning estimate, not a census of every insect, an economic
+threshold or a treatment recommendation.
 
 ## Evidence base
 
@@ -29,8 +29,10 @@ population-density conversion.
 
 ## Orchard update
 
-The prior is assigned the strength of one standard four-tree sample. For `y`
-combined FSB/BSB collected from `n` drop-sheet trees:
+The prior is assigned the strength of one four-tree research sample. This is
+an internal calibration weight derived from the research protocol, not a
+required grower sampling unit. For `y` combined FSB/BSB observed from `n`
+sampled trees:
 
 `updated bugs/tree = (4 × regional bugs/tree + y) ÷ (4 + n)`
 
@@ -42,6 +44,18 @@ at 7 and 14 days. Consequently:
 - a positive observation raises the orchard-adjusted outlook;
 - a larger sample has more influence than a smaller sample; and
 - the regional weather trajectory determines the subsequent direction.
+
+The updated per-tree rates are converted to the grower-facing area unit using:
+
+`trees/ha = 10,000 ÷ (row spacing × within-row spacing)`
+
+`sampling-equivalent bugs/ha = updated bugs/tree × trees/ha`
+
+Growers can enter known tree density directly. Because scouting methods differ
+in detection efficiency, non-drop-sheet observations are most informative when
+the method and effort are kept consistent across visits. The underlying
+calibration used research drop-sheet data; the interface does not imply that
+four-tree drop-sheet sampling is normal commercial practice.
 
 ## Management and damage boundaries
 

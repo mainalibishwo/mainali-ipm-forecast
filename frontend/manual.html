@@ -13,7 +13,7 @@
 <div class="step"><b>Step 2</b><strong>Use live weather</strong>Leave the forecast-through date at its default to view today and the available outlook, normally about two weeks.</div>
 <div class="step"><b>Step 3</b><strong>Select crop stage</strong>Choose the BBCH stage currently observed in the orchard so crop exposure can be shown.</div>
 <div class="step"><b>Step 4</b><strong>Read regional outlook</strong>Review the activity level, direction, future values and life stages.</div>
-<div class="step"><b>Step 5</b><strong>Add field evidence</strong>Enter today’s combined FSB/BSB result from a standard four-tree drop-sheet set.</div>
+<div class="step"><b>Step 5</b><strong>Add field evidence</strong>Enter a current combined FSB/BSB result from a consistent tree-based scouting method, plus the orchard’s tree density.</div>
 </div><div class="actions"><a class="button" href="/">Open dashboard</a><button class="button alt" onclick="window.print()">Print or save as PDF</button></div></section>
 
 <section class="card"><h2>How to use the dashboard</h2>
@@ -50,7 +50,7 @@
 <tr><td>Modelled seasonal population peak</td><td>Range of peak dates across the nine scenarios in the full-season trajectory.</td><td>A guaranteed outbreak date or automatically the period of greatest crop risk.</td></tr>
 <tr><td>Stage composition</td><td>Modelled proportional composition of eggs, nymphs and adults. Component-wise medians across the nine scenarios are rescaled to total exactly 100% each day.</td><td>A direct field count, bugs per tree or bugs per hectare.</td></tr>
 <tr><td>Crop overlap</td><td>User-entered crop susceptibility interpreted alongside insect phenology.</td><td>A treatment instruction.</td></tr>
-<tr><td>Observed per four-tree set</td><td>Standardizes the combined FSB/BSB count to the project’s usual four drop-sheet trees.</td><td>A whole-orchard population or economic threshold.</td></tr>
+<tr><td>Sampling-equivalent bugs/ha</td><td>Multiplies observed bugs per sampled tree by orchard trees/ha so results are expressed on a practical common area basis.</td><td>A census of every insect in the orchard or an economic threshold.</td></tr>
 <tr><td>Field-adjusted 7/14-day outlook</td><td>Updates the regional count-rate relationship with today’s orchard sample and carries that local adjustment along the forecast trajectory.</td><td>A guaranteed future catch, damage forecast or treatment trigger.</td></tr>
 <tr><td>Nut-damage check</td><td>Reports FSB/BSB-damaged nuts with the number examined and an approximate binomial interval.</td><td>Evidence that the insects causing the injury are still present today.</td></tr>
 </tbody></table></div>
@@ -71,11 +71,11 @@
 <div class="caution"><strong>Important:</strong> This is a grower-observed approximation, not an automated crop model. The published macadamia BBCH scale was developed for <em>Macadamia integrifolia × tetraphylla</em> cv. ‘Beaumont’ in Sicily. The stage codes are useful for standardization, but its calendar timing must not be transferred directly to Australian cultivars or regions.</div></section>
 
 <section class="card"><h2>Field-adjusted sampling outlook</h2>
-<p>Combine FSB and BSB because field records are not always identified to species. Enter the number collected, drop-sheet trees sampled and, where known, the number of trees with at least one detection.</p>
-<div class="formula">Observed bugs per four-tree set = (FSB/BSB collected ÷ trees sampled) × 4</div>
-<p>The field-adjusted result uses a preliminary Northern NSW count-rate calibration. Its regional prior is updated with the current orchard observation using the equivalent of one four-tree prior sample. The resulting local adjustment is then carried to the modelled 7- and 14-day regional trajectory. This prevents a small zero catch from forcing every future estimate to zero and gives larger field samples more influence.</p>
-<p><strong>Example:</strong> two FSB/BSB from four drop-sheet trees is an observed rate of 2.00 bugs per four-tree set. The field-adjusted future values may rise or fall from this evidence according to the regional weather trajectory.</p>
-<p class="small">The calibration is based on sparse, overdispersed observations and is a planning estimate, not an economic or treatment threshold. A recent targeted spray is flagged because it can suppress the observed catch; no unvalidated efficacy correction is applied.</p>
+<p>Combine FSB and BSB because field records are not always identified to species. Enter the number observed, the number of trees sampled and, where known, the number of trees with at least one detection. Growers may use a practical tree-based scouting method, but it should be applied consistently between visits.</p>
+<div class="formula">Trees/ha = 10,000 ÷ (row spacing × within-row spacing)<br>Sampling-equivalent bugs/ha = (FSB/BSB observed ÷ trees sampled) × trees/ha</div>
+<p>The field-adjusted result uses a preliminary Northern NSW count-rate calibration developed from research drop-sheet observations. The regional prior is updated with the current orchard observation using the equivalent of one four-tree research sample, and the local adjustment is carried to the modelled 7- and 14-day regional trajectory. Four trees are therefore an internal calibration weight, not a required grower sampling unit. A small zero sample does not force every future estimate to zero, while larger field samples have more influence.</p>
+<p><strong>Example:</strong> three FSB/BSB observed across 30 trees is 0.10 bugs per sampled tree. At 300 trees/ha, this is 30 sampling-equivalent bugs/ha. The field-adjusted future values may then rise or fall according to the regional weather trajectory.</p>
+<p class="small">These bugs/ha values are sampling-equivalent estimates, not a whole-orchard insect census. Sampling methods differ in detection efficiency, so comparisons are strongest when the same method and effort are used repeatedly. The calibration is based on sparse, overdispersed research observations and is not an economic or treatment threshold. A recent targeted spray is flagged because it can suppress the observed count; no unvalidated efficacy correction is applied.</p>
 <h3>Nut-damage check</h3><p>Enter FSB/BSB-damaged nuts and total nuts examined. The dashboard reports the numerator, denominator, percentage and an approximate 95% Wilson interval. If sampled area is entered, it also reports damaged nuts/m². Damage is retained as a separate crop-impact observation because injury may have accumulated before the sampling date.</p></section>
 
 <section class="card"><h2>Weather and location guidance</h2>

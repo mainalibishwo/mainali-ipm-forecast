@@ -25,17 +25,18 @@ def test_locations_endpoint_marks_seasonal_support():
 
 def test_dashboard_separates_regional_field_and_damage_outputs():
     dashboard = Path("frontend/index.html").read_text()
-    assert "Observed per four-tree set" in dashboard
+    assert "Sampling-equivalent bugs/ha" in dashboard
     assert "Field-adjusted in 7 days" in dashboard
     assert "Field-adjusted in 14 days" in dashboard
-    assert "FSB/BSB collected" in dashboard
+    assert "FSB/BSB observed" in dashboard
     assert "priorTreeStrength:4" in dashboard
     assert "fieldAdjustedRate" in dashboard
     assert "Optional nut-damage check" in dashboard
     assert "Approx. 95% interval" in dashboard
     assert "wilson(success,total)" in dashboard
-    assert "Sampling-equivalent bugs/ha" not in dashboard
-    assert "trees per hectare" not in dashboard.lower()
+    assert "Trees per hectare" in dashboard
+    assert "treeDensity(row,within)" in dashboard
+    assert "Observed per four-tree set" not in dashboard
     assert "modelled autumn carryover signal" in dashboard
     assert "not automatically the period of greatest crop damage" in dashboard
     assert "displayDate(peaks[0])" in dashboard
@@ -91,7 +92,7 @@ def test_grower_manual_covers_model_and_decision_boundaries():
     for required in (
         "Five steps for growers",
         "Why nine scenarios?",
-        "Observed bugs per four-tree set",
+        "Sampling-equivalent bugs/ha",
         "Field-adjusted sampling outlook",
         "Nut-damage check",
         "not a statistical confidence interval",

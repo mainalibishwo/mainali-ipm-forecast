@@ -46,13 +46,16 @@ at representative regional coordinates into de-identified regional series.
 Malua, Knockrow and Dorey remain validation series and are deliberately
 excluded from live forecasting. See `docs/MIFE_live_weather_protocol.md`.
 
-The field-sampling panel combines FSB and BSB and standardizes the result to
-the project's usual **four-tree drop-sheet sampling set**. A preliminary
-Northern NSW count-rate calibration is updated with today's orchard sample and
-carried along the regional 7- and 14-day trajectory. The resulting values are
-labelled field-adjusted planning estimates, not whole-orchard abundance,
-economic thresholds or treatment triggers. Recent FSB/BSB-targeted management
-is flagged but is not assigned an unvalidated efficacy correction. See
+The field-sampling panel combines FSB and BSB and converts a consistent
+tree-based observation to **sampling-equivalent bugs/ha** using editable
+orchard tree density. A preliminary Northern NSW count-rate calibration,
+developed from research drop-sheet observations, is updated with the current
+orchard sample and carried along the regional 7- and 14-day trajectory. The
+four-tree research design remains only an internal prior weight; it is not a
+required grower sampling unit. Resulting values are planning estimates, not a
+whole-orchard census, economic threshold or treatment trigger. Recent
+FSB/BSB-targeted management is flagged but is not assigned an unvalidated
+efficacy correction. See
 `docs/MIFE_field_adjustment_protocol.md`.
 
 An optional nut-damage check reports FSB/BSB injury as a numerator,
