@@ -36,9 +36,12 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert "ACTIVITY STATUS — RUN OUTLOOK" in dashboard
     assert "Live regional comparison" in dashboard
     assert "Seasonal activity calendar" in dashboard
-    assert "Current modelled phase" in dashboard
-    assert "Nymph population build-up" in dashboard
-    assert "phaseForDay" in dashboard
+    assert "Current modelled activity period" in dashboard
+    assert "Population build-up" in dashboard
+    assert "seasonalActivityWindows" in dashboard
+    assert "smoothActivity(activity,radius=7)" in dashboard
+    assert "Modelled life-stage composition is shown separately" in dashboard
+    assert "Approx." in dashboard
     assert "not discrete generations" in dashboard
     assert "Nymph population" in dashboard
     assert "Adult population" in dashboard
@@ -141,7 +144,8 @@ def test_grower_manual_covers_model_and_decision_boundaries():
         "Activity-level guide",
         "communication bands for the relative index",
         "Seasonal activity calendar",
-        "overwintering and carryover",
+        "15-day moving average",
+        "Life-stage composition is intentionally kept separate",
         "not evidence of one generation",
     ):
         assert required in guide
