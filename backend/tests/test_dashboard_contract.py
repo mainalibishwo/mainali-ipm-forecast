@@ -100,7 +100,9 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert "Changes under 2 index points are described as stable" in dashboard
     assert "s.value='malua'" not in dashboard
     assert "seasonal carryover and overwintering population development" in dashboard
-    assert "does not change the predicted population" in dashboard
+    assert "Phenology-informed monitoring priority" in dashboard
+    assert "does not artificially rescale the regional insect population" in dashboard
+    assert "phenologyMonitoringPriority" in dashboard
     assert "Hort Innovation macadamia research and development levy" in dashboard
     assert "Christopher Themsen, Chris Fuller and Jarrah Coates" in dashboard
     assert "Cervantes Agritech" in dashboard
@@ -152,5 +154,8 @@ def test_grower_manual_covers_model_and_decision_boundaries():
         "15-day moving average",
         "Life-stage composition is intentionally kept separate",
         "not evidence of one generation",
+        "How crop phenology is incorporated",
+        "112 orchard/block-date sampling events",
+        "monitoring decision layer",
     ):
         assert required in guide
