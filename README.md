@@ -22,6 +22,12 @@ Its central line is their median and its shading is their full range, not a
 confidence interval. Crop susceptibility is a user-supplied exposure overlay
 and does not alter insect biology.
 
+The grower view also provides a **seasonal activity calendar**. It translates
+the median activity trajectory, seven-day direction and modelled egg, nymph and
+adult composition into plain-language seasonal phases. These phases summarise
+overlapping cohorts; they are not discrete generations, observed events,
+damage thresholds or treatment triggers.
+
 Run locally with:
 
 ```bash

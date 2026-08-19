@@ -35,6 +35,11 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert "LOW ACTIVITY" not in dashboard
     assert "ACTIVITY STATUS — RUN OUTLOOK" in dashboard
     assert "Live regional comparison" in dashboard
+    assert "Seasonal activity calendar" in dashboard
+    assert "Current modelled phase" in dashboard
+    assert "Nymph population build-up" in dashboard
+    assert "phaseForDay" in dashboard
+    assert "not discrete generations" in dashboard
     assert "Nymph population" in dashboard
     assert "Adult population" in dashboard
     assert "shared maximum = 100" in dashboard
@@ -135,5 +140,8 @@ def test_grower_manual_covers_model_and_decision_boundaries():
         "Most field validation evidence is for FSB",
         "Activity-level guide",
         "communication bands for the relative index",
+        "Seasonal activity calendar",
+        "overwintering and carryover",
+        "not evidence of one generation",
     ):
         assert required in guide
