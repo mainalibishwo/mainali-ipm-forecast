@@ -30,6 +30,8 @@ def test_locations_endpoint_marks_seasonal_support():
 def test_dashboard_separates_regional_field_and_damage_outputs():
     dashboard = Path("frontend/index.html").read_text()
     assert "Sampling-equivalent bugs/ha" in dashboard
+    assert "Stored research record — retrospective" not in dashboard
+    assert 'id="weatherSource" type="hidden" value="live"' in dashboard
     assert "LOW ACTIVITY" not in dashboard
     assert "ACTIVITY STATUS — RUN OUTLOOK" in dashboard
     assert "Live regional comparison" in dashboard

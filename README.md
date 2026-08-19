@@ -40,9 +40,11 @@ changing the public URL or biological model.
 The dashboard links to a printable grower manual at `/manual`, covering the
 model structure, process snapshot, interpretation and decision boundaries.
 
-The dashboard offers stored research weather for reproducible runs and live
-regional weather for operational forecasts. Live mode merges Open-Meteo data
-at representative regional coordinates into de-identified regional series.
+The grower dashboard uses live regional weather for operational forecasts.
+Stored research weather remains available internally for reproducible model
+testing and retrospective validation, but is not shown as a grower-selectable
+option. Live mode merges Open-Meteo data at representative regional coordinates
+into de-identified regional series.
 Malua, Knockrow and Dorey remain validation series and are deliberately
 excluded from live forecasting. See `docs/MIFE_live_weather_protocol.md`.
 
