@@ -21,11 +21,22 @@ def test_locations_endpoint_marks_seasonal_support():
     assert by_id["malua"]["weather_end"] == "2026-02-28"
     assert by_id["wide_bay_gympie_01"]["supports_live_weather"] is True
     assert by_id["wide_bay_gympie_01"]["series_role"] == "regional"
+    assert by_id["wide_bay_gympie_01"]["grower_visible"] is True
+    assert by_id["wide_bay_gympie_02"]["grower_visible"] is False
+    assert by_id["northern_nsw_01"]["name"] == "Northern NSW — near Alstonville"
+    assert by_id["northern_nsw_02"]["grower_visible"] is False
 
 
 def test_dashboard_separates_regional_field_and_damage_outputs():
     dashboard = Path("frontend/index.html").read_text()
     assert "Sampling-equivalent bugs/ha" in dashboard
+    assert "LOW ACTIVITY" not in dashboard
+    assert "ACTIVITY STATUS — RUN OUTLOOK" in dashboard
+    assert "Live regional comparison" in dashboard
+    assert "Nymph population" in dashboard
+    assert "Adult population" in dashboard
+    assert "shared maximum = 100" in dashboard
+    assert "x.grower_visible!==false" in dashboard
     assert "Field-adjusted in 7 days" in dashboard
     assert "Field-adjusted in 14 days" in dashboard
     assert "FSB/BSB observed" in dashboard

@@ -85,60 +85,64 @@ LOCATIONS = {
 
     # Historical de-identified regional weather series
     "wide_bay_gympie_01": {
-        "name": "Wide Bay–Gympie — Site 1",
+        "name": "Wide Bay–Gympie — near Tiaro",
         "region": "Wide Bay–Gympie",
         "weather_file": "wide_bay_gympie_01.csv",
         "seasonal_latitude": -25.5,
         "live_coordinate": (-25.90, 152.60),
     },
     "wide_bay_gympie_02": {
-        "name": "Wide Bay–Gympie — Site 2",
+        "name": "Wide Bay–Gympie — near Tiaro (research series 2)",
         "region": "Wide Bay–Gympie",
         "weather_file": "wide_bay_gympie_02.csv",
         "seasonal_latitude": -25.5,
         "live_coordinate": (-25.90, 152.60),
+        "grower_visible": False,
     },
     "glass_house_mountains_01": {
-        "name": "Glass House Mountains — Site 1",
+        "name": "Glass House Mountains — near Beerwah",
         "region": "Glass House Mountains",
         "weather_file": "glass_house_mountains_01.csv",
         "seasonal_latitude": -26.9,
         "live_coordinate": (-26.90, 152.95),
     },
     "bundaberg_region_01": {
-        "name": "Bundaberg Region — Site 1",
+        "name": "Bundaberg Region — near Bundaberg",
         "region": "Bundaberg Region",
         "weather_file": "bundaberg_region_01.csv",
         "seasonal_latitude": -24.9,
         "live_coordinate": (-24.87, 152.35),
     },
     "northern_nsw_01": {
-        "name": "Northern NSW — Site 1",
+        "name": "Northern NSW — near Alstonville",
         "region": "Northern NSW",
         "weather_file": "northern_nsw_01.csv",
         "seasonal_latitude": -28.8,
         "live_coordinate": (-28.80, 153.40),
     },
     "northern_nsw_02": {
-        "name": "Northern NSW — Site 2",
+        "name": "Northern NSW — near Alstonville (research series 2)",
         "region": "Northern NSW",
         "weather_file": "northern_nsw_02.csv",
         "seasonal_latitude": -28.8,
         "live_coordinate": (-28.80, 153.40),
+        "grower_visible": False,
     },
     "northern_nsw_03": {
-        "name": "Northern NSW — Site 3",
+        "name": "Northern NSW — near Alstonville (research series 3)",
         "region": "Northern NSW",
         "weather_file": "northern_nsw_03.csv",
         "seasonal_latitude": -28.8,
         "live_coordinate": (-28.80, 153.40),
+        "grower_visible": False,
     },
     "northern_nsw_04": {
-        "name": "Northern NSW — Site 4",
+        "name": "Northern NSW — near Alstonville (research series 4)",
         "region": "Northern NSW",
         "weather_file": "northern_nsw_04.csv",
         "seasonal_latitude": -28.8,
         "live_coordinate": (-28.80, 153.40),
+        "grower_visible": False,
     },
 }
 
@@ -226,6 +230,7 @@ def locations():
                     if values.get("validation_only")
                     else "regional"
                 ),
+                "grower_visible": values.get("grower_visible", True),
                 "weather_start": (
                     WeatherLoader.load_csv(
                         WEATHER_DIR / values["weather_file"]
