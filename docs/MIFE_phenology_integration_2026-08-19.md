@@ -2,9 +2,9 @@
 
 ## Decision
 
-Macadamia BBCH is incorporated as a phenology-informed monitoring layer, not as an unvalidated multiplier of the regional FSB/BSB population.
+Macadamia BBCH is incorporated as a phenology-informed crop-exposure and monitoring layer, not as an unvalidated multiplier of the regional FSB/BSB population.
 
-The regional population engine continues to use weather and frozen spotting-bug development, survival, reproduction and seasonal-activation assumptions. The grower-observed BBCH group is combined with the current regional activity band and trajectory to produce a monitoring priority. Current orchard sampling remains the mechanism that updates the local abundance outlook.
+The regional population engine continues to use weather and frozen spotting-bug development, survival, reproduction and seasonal-activation assumptions. The grower-observed BBCH group is combined with modelled regional activity today and at the available 7- and 14-day horizons to produce a visibly separate crop-exposure and monitoring outlook. Current orchard sampling remains the mechanism that updates the local abundance outlook.
 
 ## Evidence audit
 
@@ -47,6 +47,8 @@ The implemented separation avoids those errors while making phenology operationa
 - Otherwise: routine monitoring.
 
 These are transparent monitoring categories, not crop-damage probabilities, economic thresholds or pesticide recommendations.
+
+The selected BBCH group is assumed to remain representative over the short 14-day horizon. The interface tells growers to update the selection when crop stage changes. No BBCH value is projected across the full season, because doing so would require a validated cultivar- and region-specific crop-phenology model.
 
 ## Requirement for a future abundance modifier
 

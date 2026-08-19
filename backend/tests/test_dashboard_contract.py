@@ -101,6 +101,10 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert "s.value='malua'" not in dashboard
     assert "seasonal carryover and overwintering population development" in dashboard
     assert "Phenology-informed monitoring priority" in dashboard
+    assert "Phenology-adjusted crop-exposure outlook" in dashboard
+    assert "cropExposureAt" in dashboard
+    assert "renderCropExposure" in dashboard
+    assert "assumed to remain representative across this short outlook" in dashboard
     assert "does not artificially rescale the regional insect population" in dashboard
     assert "phenologyMonitoringPriority" in dashboard
     assert "Hort Innovation macadamia research and development levy" in dashboard
@@ -157,5 +161,7 @@ def test_grower_manual_covers_model_and_decision_boundaries():
         "How crop phenology is incorporated",
         "112 orchard/block-date sampling events",
         "monitoring decision layer",
+        "current, 7-day and 14-day activity values",
+        "assumes the selected crop stage remains representative",
     ):
         assert required in guide
