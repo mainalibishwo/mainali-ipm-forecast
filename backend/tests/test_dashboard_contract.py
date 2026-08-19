@@ -24,6 +24,8 @@ def test_locations_endpoint_marks_seasonal_support():
     assert by_id["wide_bay_gympie_01"]["grower_visible"] is True
     assert by_id["wide_bay_gympie_02"]["grower_visible"] is False
     assert by_id["northern_nsw_01"]["name"] == "Northern NSW — near Alstonville"
+    assert by_id["northern_nsw_01"]["live_latitude"] == -28.80
+    assert by_id["northern_nsw_01"]["live_longitude"] == 153.40
     assert by_id["northern_nsw_02"]["grower_visible"] is False
 
 
@@ -35,6 +37,9 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert "LOW ACTIVITY" not in dashboard
     assert "ACTIVITY STATUS — RUN OUTLOOK" in dashboard
     assert "Live regional comparison" in dashboard
+    assert "fetchBrowserWeather" in dashboard
+    assert "live_weather_days" in dashboard
+    assert "Regional comparison unavailable" in dashboard
     assert "Seasonal activity calendar" in dashboard
     assert "Current modelled activity period" in dashboard
     assert "Population build-up" in dashboard

@@ -26,6 +26,7 @@ from backend.engine.seasonality import (
 from backend.engine.simulation import SimulationState
 from backend.engine.weather_loader import WeatherLoader
 from backend.engine.live_weather import fetch_open_meteo, merge_weather
+from backend.engine.weather import WeatherDay
 
 
 app = FastAPI(
@@ -146,6 +147,15 @@ LOCATIONS = {
     },
 }
 
+class BrowserWeatherDay(BaseModel):
+    """A validated Open-Meteo day fetched by the grower's browser."""
+
+    weather_date: str
+    tmin: float
+    tmax: float
+    rainfall_mm: float = Field(default=0.0, ge=0)
+
+
 class SimulationRequest(BaseModel):
     """Input supplied by the forecasting interface."""
 
@@ -177,6 +187,8 @@ class SimulationRequest(BaseModel):
     ] = "reference"
 
     weather_source: Literal["stored", "live"] = "stored"
+
+    live_weather_days: list[BrowserWeatherDay] | None = None
 
     start_date: str | None = None
     end_date: str | None = None
@@ -231,6 +243,12 @@ def locations():
                     else "regional"
                 ),
                 "grower_visible": values.get("grower_visible", True),
+                "live_latitude": (
+                    values.get("live_coordinate", (None, None))[0]
+                ),
+                "live_longitude": (
+                    values.get("live_coordinate", (None, None))[1]
+                ),
                 "weather_start": (
                     WeatherLoader.load_csv(
                         WEATHER_DIR / values["weather_file"]
@@ -327,7 +345,30 @@ def simulate(
                 raise ValueError(
                     "Live weather is available only for regional series."
                 )
-            live_weather, live_metadata = fetch_open_meteo(*coordinate)
+            if request.live_weather_days:
+                live_weather = [
+                    WeatherDay(
+                        weather_date=datetime.strptime(
+                            row.weather_date,
+                            "%Y-%m-%d",
+                        ).date(),
+                        tmin=row.tmin,
+                        tmax=row.tmax,
+                        rainfall_mm=row.rainfall_mm,
+                    )
+                    for row in request.live_weather_days
+                ]
+                live_metadata = {
+                    "provider": "Open-Meteo",
+                    "provider_url": "https://open-meteo.com/",
+                    "model_selection": "best_match",
+                    "latitude": coordinate[0],
+                    "longitude": coordinate[1],
+                    "retrieved_by": "grower_browser",
+                    "forecast_end": live_weather[-1].weather_date.isoformat(),
+                }
+            else:
+                live_weather, live_metadata = fetch_open_meteo(*coordinate)
             weather = merge_weather(weather, live_weather)
 
         if request.start_date:

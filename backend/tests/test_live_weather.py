@@ -1,6 +1,6 @@
 import pytest
 
-from backend.api import SimulationRequest, simulate
+from backend.api import BrowserWeatherDay, SimulationRequest, simulate
 from backend.engine.live_weather import _parse_daily, merge_weather
 from backend.engine.weather import WeatherDay
 from datetime import date
@@ -62,3 +62,13 @@ def test_live_weather_rejected_for_named_validation_series():
             seasonal_activation="central",
         ))
     assert "only for regional series" in str(error.value)
+
+
+def test_browser_weather_day_rejects_negative_rainfall():
+    with pytest.raises(Exception):
+        BrowserWeatherDay(
+            weather_date="2026-08-19",
+            tmin=10,
+            tmax=20,
+            rainfall_mm=-1,
+        )
