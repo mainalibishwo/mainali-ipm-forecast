@@ -27,6 +27,7 @@ from backend.engine.simulation import SimulationState
 from backend.engine.weather_loader import WeatherLoader
 from backend.engine.live_weather import fetch_open_meteo, merge_weather
 from backend.engine.weather import WeatherDay
+from backend.risk import assess_monitoring_risk
 
 
 app = FastAPI(
@@ -194,6 +195,21 @@ class SimulationRequest(BaseModel):
     end_date: str | None = None
 
 
+class RiskAssessmentRequest(BaseModel):
+    """Inputs for the transparent grower monitoring-risk layer."""
+
+    activity_index: float = Field(ge=0, le=100)
+    change_14d: float
+    crop_stage: Literal[
+        "unknown", "inflorescence", "flowering", "early_fruit",
+        "nut_development", "maturation", "post_harvest",
+    ] = "unknown"
+    bugs_observed: float | None = Field(default=None, ge=0)
+    trees_sampled: int | None = Field(default=None, gt=0)
+    damaged_nuts: int | None = Field(default=None, ge=0)
+    nuts_examined: int | None = Field(default=None, gt=0)
+
+
 @app.get("/")
 def root():
     return FileResponse(
@@ -264,6 +280,16 @@ def locations():
             in LOCATIONS.items()
         ]
     }
+
+
+@app.post("/risk-assessment")
+def risk_assessment(request: RiskAssessmentRequest):
+    """Combine forecast, crop stage and optional orchard evidence transparently."""
+
+    try:
+        return assess_monitoring_risk(**request.model_dump())
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
 
 
 @app.post("/simulate")

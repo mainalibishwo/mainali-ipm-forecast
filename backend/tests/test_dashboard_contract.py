@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from backend.api import LOCATIONS, locations, manual
+from backend.api import LOCATIONS, RiskAssessmentRequest, locations, manual, risk_assessment
 
 
 def test_all_operational_regions_have_seasonal_latitude():
@@ -27,6 +27,20 @@ def test_locations_endpoint_marks_seasonal_support():
     assert by_id["northern_nsw_01"]["live_latitude"] == -28.80
     assert by_id["northern_nsw_01"]["live_longitude"] == 153.40
     assert by_id["northern_nsw_02"]["grower_visible"] is False
+
+
+def test_risk_endpoint_exposes_separate_decision_layers():
+    result = risk_assessment(RiskAssessmentRequest(
+        activity_index=35,
+        change_14d=6,
+        crop_stage="flowering",
+        bugs_observed=1,
+        trees_sampled=30,
+    ))
+    assert result["regional_activity"]["band"] == "High"
+    assert result["crop_exposure"]["level"] == "High crop exposure"
+    assert result["orchard_evidence"]["live_insects"] == "Live bugs detected"
+    assert result["monitoring_priority"] == "High monitoring"
 
 
 def test_dashboard_separates_regional_field_and_damage_outputs():
@@ -102,6 +116,12 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert "seasonal carryover and overwintering population development" in dashboard
     assert "Phenology-informed monitoring priority" in dashboard
     assert "Phenology-adjusted crop-exposure outlook" in dashboard
+    assert "Integrated monitoring-risk outlook" in dashboard
+    assert "1 · Regional activity" in dashboard
+    assert "2 · Crop exposure" in dashboard
+    assert "3 · Orchard evidence" in dashboard
+    assert "fetch('/risk-assessment'" in dashboard
+    assert "Relative seasonal population activity (0–100 index)" in dashboard
     assert "cropExposureAt" in dashboard
     assert "CROP_TISSUE" in dashboard
     assert "Regional activity is" in dashboard
@@ -165,5 +185,9 @@ def test_grower_manual_covers_model_and_decision_boundaries():
         "monitoring decision layer",
         "current, 7-day and 14-day activity values",
         "assumes the selected crop stage remains representative",
+        "Integrated monitoring-risk model",
+        "three separate lines of evidence",
+        "A zero sample does not cancel a high regional signal",
+        "not a fitted economic-loss model",
     ):
         assert required in guide

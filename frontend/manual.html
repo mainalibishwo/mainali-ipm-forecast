@@ -82,6 +82,16 @@
 </tbody></table></div>
 <p class="small"><strong>Scientific boundary:</strong> The monitoring priority is a transparent decision-support rule, not a fitted probability of crop damage or an economic threshold. A future abundance modifier should be estimated only after replicated sampling separates BBCH from date, weather, cultivar, orchard, sampling effort and management, and demonstrates improved out-of-sample prediction.</p></section>
 
+<section class="card"><h2>Integrated monitoring-risk model</h2>
+<p>MIFE v0.2 formalises the grower decision layer as a tested, versioned rule-based model. It does not relabel the population index as “damage risk”. Instead, it reports three separate lines of evidence and then assigns a monitoring priority.</p>
+<div class="table-wrap"><table><thead><tr><th>Risk layer</th><th>Question answered</th><th>Scientific boundary</th></tr></thead><tbody>
+<tr><td>Regional activity</td><td>Is weather-driven nymph-plus-adult activity low, moderate, high or very high, and is it changing?</td><td>Relative to the selected region’s modelled seasonal maximum; not bugs per hectare.</td></tr>
+<tr><td>Crop exposure</td><td>Does current modelled activity overlap the grower-observed reproductive BBCH stage?</td><td>Monitoring interpretation, not probability or expected amount of damage.</td></tr>
+<tr><td>Orchard evidence</td><td>Were live FSB/BSB or nut injury recorded in the current orchard sample?</td><td>A non-detection is not proof of absence; nut injury may pre-date today’s population.</td></tr>
+</tbody></table></div>
+<p>Current live-bug detection can increase monitoring priority because it confirms local presence. A zero sample does not cancel a high regional signal. Recorded nut injury is displayed as supporting crop evidence but does not rescale the current population forecast.</p>
+<p class="small"><strong>Model status:</strong> this is a transparent monitoring-risk framework supported by biological evidence and preliminary field validation. It is not a fitted economic-loss model, pesticide threshold or treatment recommendation. Converting it to a calibrated probability of crop damage requires linked, standardised insect, crop-stage and damage observations across additional orchards and seasons.</p></section>
+
 <section class="card"><h2>Field-adjusted sampling outlook</h2>
 <p>Combine FSB and BSB because field records are not always identified to species. Enter the number observed, the number of trees sampled and, where known, the number of trees with at least one detection. Growers may use a practical tree-based scouting method, but it should be applied consistently between visits.</p>
 <div class="formula">Trees/ha = 10,000 ÷ (row spacing × within-row spacing)<br>Sampling-equivalent bugs/ha = (FSB/BSB observed ÷ trees sampled) × trees/ha</div>
@@ -114,7 +124,7 @@
 <li><a href="https://australianmacadamias.org/industry/about-growers/growing-processing-macadamias">Australian Macadamia Society: Growing and processing macadamias</a></li>
 <li><a href="https://open-meteo.com/">Open-Meteo weather provider</a></li>
 <li><a href="https://www.soihs.it/IH2/year_2024_volume_31_issue_3/phenological_stages_of_macadamia_integrifolia_x_tetraphyll.aspx">Roppolo et al. (2024): Macadamia phenological stages according to the BBCH scale</a></li>
-</ul><p class="small">Manual version 0.3 · Prepared for the MIFE grower pilot · 19 August 2026.</p></section>
+</ul><p class="small">Manual version 0.4 · Prepared for the MIFE grower pilot · 20 August 2026.</p></section>
 
 <section class="card"><h2>Funding and acknowledgements</h2><p><strong>Funding:</strong> This project has been funded by Hort Innovation, using the Hort Innovation macadamia research and development levy and contributions from the Australian Government.</p><p><strong>Field scouting:</strong> Christopher Themsen, Chris Fuller and Jarrah Coates are gratefully acknowledged for their field scouting contributions.</p><p><strong>Project partner:</strong> Cervantes Agritech is gratefully acknowledged as a project partner.</p></section>
 </main><footer>MIFE · Spotting bug forecast · Research-based decision support</footer>

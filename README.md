@@ -72,6 +72,14 @@ denominator, percentage and approximate binomial interval. Damage remains
 separate from the live-insect forecast because it can accumulate before the
 sampling date.
 
+The dashboard also provides a versioned **integrated monitoring-risk outlook**.
+It keeps three lines of evidence visible: regional weather-driven activity,
+grower-selected crop exposure and optional current orchard evidence. Transparent
+rules translate those layers into routine, enhanced, high or very-high
+monitoring priority. This is a monitoring decision aid, not a fitted probability
+of damage, economic threshold or pesticide recommendation. See
+`docs/MIFE_monitoring_risk_framework_v0.2.md`.
+
 The Northern NSW March–April maximum is labelled a **modelled autumn population
 peak**, distinct from harvest timing and crop-damage risk. The literature and
 required March–May field-validation protocol are documented in
