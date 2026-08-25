@@ -191,6 +191,14 @@ class SimulationRequest(BaseModel):
 
     live_weather_days: list[BrowserWeatherDay] | None = None
 
+    live_latitude: float | None = Field(default=None, ge=-44, le=-10)
+    live_longitude: float | None = Field(default=None, ge=112, le=154)
+    seasonal_latitude_override: float | None = Field(
+        default=None,
+        ge=-44,
+        le=-10,
+    )
+
     start_date: str | None = None
     end_date: str | None = None
 
@@ -337,7 +345,11 @@ def simulate(
 
         engine = manager.build_engine()
 
-        seasonal_latitude = location_info.get("seasonal_latitude")
+        seasonal_latitude = (
+            request.seasonal_latitude_override
+            if request.seasonal_latitude_override is not None
+            else location_info.get("seasonal_latitude")
+        )
         if request.seasonal_activation != "reference":
             if request.initialization != "overwintering_adults":
                 raise ValueError(
@@ -366,7 +378,18 @@ def simulate(
 
         live_metadata = None
         if request.weather_source == "live":
-            coordinate = location_info.get("live_coordinate")
+            supplied_coordinate = (
+                request.live_latitude,
+                request.live_longitude,
+            )
+            if all(value is not None for value in supplied_coordinate):
+                coordinate = supplied_coordinate
+            elif any(value is not None for value in supplied_coordinate):
+                raise ValueError(
+                    "Both latitude and longitude are required for local weather."
+                )
+            else:
+                coordinate = location_info.get("live_coordinate")
             if coordinate is None:
                 raise ValueError(
                     "Live weather is available only for regional series."

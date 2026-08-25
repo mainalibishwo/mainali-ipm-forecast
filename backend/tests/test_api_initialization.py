@@ -79,3 +79,18 @@ def test_adult_suppression_scenario_reports_daylength():
         0.0 <= row["reproductive_activation"] <= 1.0
         for row in result["results"]
     )
+
+
+def test_orchard_coordinate_overrides_are_accepted():
+    request = SimulationRequest(
+        location="northern_nsw_01",
+        start_date="2025-08-01",
+        end_date="2025-08-03",
+        live_latitude=-28.86,
+        live_longitude=153.46,
+        seasonal_latitude_override=-28.86,
+    )
+
+    assert request.live_latitude == -28.86
+    assert request.live_longitude == 153.46
+    assert request.seasonal_latitude_override == -28.86

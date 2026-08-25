@@ -84,8 +84,8 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert "year:'numeric'" in dashboard
     assert "normalizeComposition" in dashboard
     assert "Your regional monitoring outlook" in dashboard
-    assert "Activity today" in dashboard
-    assert "7- and 14-day forecast" in dashboard
+    assert "Regional activity today" in dashboard
+    assert "7- and 14-day regional forecast" in dashboard
     assert "Live weather available through" in dashboard
     assert "Predicted seasonal peak window" in dashboard
     assert "forecastPeriodPlugin" in dashboard
@@ -108,6 +108,17 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert "Population activity index (0–100)" in dashboard
     assert "Relative mobile pressure" not in dashboard
     assert "Show regional outlook" in dashboard
+    assert "Forecast my orchard" in dashboard
+    assert 'id="orchardLocality"' in dashboard
+    assert 'id="orchardState"' in dashboard
+    assert 'id="orchardLatitude"' in dashboard
+    assert 'id="orchardLongitude"' in dashboard
+    assert 'id="sampleDate"' in dashboard
+    assert 'id="samplingMethod"' in dashboard
+    assert "geocoding-api.open-meteo.com" in dashboard
+    assert "Use an orchard observation collected within the past 30 days" in dashboard
+    assert "seasonal_latitude_override" in dashboard
+    assert "Sampling-equivalent planning estimates—not a census" in dashboard
     assert "Low is 0–&lt;10" in dashboard
     assert "moderate 10–&lt;30" in dashboard
     assert "high 30–&lt;70" in dashboard
