@@ -51,6 +51,10 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert "LOW ACTIVITY" not in dashboard
     assert "ACTIVITY STATUS — RUN OUTLOOK" in dashboard
     assert "Live regional comparison" in dashboard
+    assert "Seasonal trends by region" in dashboard
+    assert "regionalTrendGrid" in dashboard
+    assert "renderRegionalTrendCharts(series)" in dashboard
+    assert "Each panel is normalized separately" in dashboard
     assert "fetchBrowserWeather" in dashboard
     assert "live_weather_days" in dashboard
     assert "Regional comparison unavailable" in dashboard
