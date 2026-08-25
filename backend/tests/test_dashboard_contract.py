@@ -50,7 +50,7 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert 'id="weatherSource" type="hidden" value="live"' in dashboard
     assert "LOW ACTIVITY" not in dashboard
     assert "ACTIVITY STATUS — RUN OUTLOOK" in dashboard
-    assert "Live regional comparison" in dashboard
+    assert "Live regional nymph and adult comparison" in dashboard
     assert "Seasonal trends by region" in dashboard
     assert "regionalTrendGrid" in dashboard
     assert "renderRegionalTrendCharts(series)" in dashboard
@@ -58,14 +58,11 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert "fetchBrowserWeather" in dashboard
     assert "live_weather_days" in dashboard
     assert "Regional comparison unavailable" in dashboard
-    assert "Seasonal activity calendar" in dashboard
-    assert "Current modelled activity period" in dashboard
+    assert 'class="hidden-support" id="seasonalCalendar"' in dashboard
     assert "Population build-up" in dashboard
     assert "seasonalActivityWindows" in dashboard
     assert "smoothActivity(activity,radius=7)" in dashboard
-    assert "Modelled life-stage composition is shown separately" in dashboard
     assert "Approx." in dashboard
-    assert "not discrete generations" in dashboard
     assert "Nymph population" in dashboard
     assert "Adult population" in dashboard
     assert "shared maximum = 100" in dashboard
@@ -86,9 +83,9 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert "displayDate(peaks[0])" in dashboard
     assert "year:'numeric'" in dashboard
     assert "normalizeComposition" in dashboard
-    assert "Regional population outlook" in dashboard
-    assert "Population activity today" in dashboard
-    assert "Predicted activity in 7 and 14 days" in dashboard
+    assert "Your regional monitoring outlook" in dashboard
+    assert "Activity today" in dashboard
+    assert "7- and 14-day forecast" in dashboard
     assert "Live weather available through" in dashboard
     assert "Predicted seasonal peak window" in dashboard
     assert "forecastPeriodPlugin" in dashboard
@@ -104,42 +101,39 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert "BBCH 00–39" not in dashboard
     assert "vegetative:{" not in dashboard
     assert "cropGuidance" in dashboard
-    assert "What this means for monitoring" in dashboard
-    assert "What the 0–100 index means" in dashboard
+    assert "What to do:" in dashboard
+    assert "how to read the 0–100 index" in dashboard
     assert "fruitspotting bug (FSB" in dashboard
     assert "banana spotting bug (BSB" in dashboard
     assert "Population activity index (0–100)" in dashboard
     assert "Relative mobile pressure" not in dashboard
     assert "Show regional outlook" in dashboard
-    assert "Low: 0 to &lt;10" in dashboard
-    assert "Moderate: 10 to &lt;30" in dashboard
-    assert "High: 30 to &lt;70" in dashboard
-    assert "Very high: 70–100" in dashboard
+    assert "Low is 0–&lt;10" in dashboard
+    assert "moderate 10–&lt;30" in dashboard
+    assert "high 30–&lt;70" in dashboard
+    assert "very high 70–100" in dashboard
     assert "Changes under 2 index points are described as stable" in dashboard
     assert "s.value='malua'" not in dashboard
     assert "seasonal carryover and overwintering population development" in dashboard
-    assert "Phenology-informed monitoring priority" in dashboard
-    assert "Phenology-adjusted crop-exposure outlook" in dashboard
-    assert "Integrated monitoring-risk outlook" in dashboard
-    assert "1 · Regional activity" in dashboard
-    assert "2 · Crop exposure" in dashboard
-    assert "3 · Orchard evidence" in dashboard
+    assert "Monitoring priority" in dashboard
+    assert "Phenology-adjusted crop-exposure outlook" not in dashboard
+    assert "Monitoring-priority evidence" in dashboard
+    assert "Regional activity" in dashboard
+    assert "Crop exposure" in dashboard
+    assert "Orchard evidence" in dashboard
     assert "fetch('/risk-assessment'" in dashboard
-    assert "Relative seasonal population activity (0–100 index)" in dashboard
+    assert "Seasonal population activity" in dashboard
     assert "cropExposureAt" in dashboard
     assert "CROP_TISSUE" in dashboard
     assert "Regional activity is" in dashboard
     assert "renderCropExposure" in dashboard
-    assert "assumed to remain representative across this short outlook" in dashboard
-    assert "does not artificially rescale the regional insect population" in dashboard
+    assert "Crop stage changes the monitoring interpretation" in dashboard
     assert "phenologyMonitoringPriority" in dashboard
     assert "Hort Innovation macadamia research and development levy" in dashboard
     assert "Christopher Themsen, Chris Fuller and Jarrah Coates" in dashboard
     assert "Cervantes Agritech" in dashboard
-    assert "/assets/macquarie-university-logo.svg" in dashboard
-    assert "/assets/hort-innovation-logo.svg" in dashboard
-    assert Path("frontend/assets/macquarie-university-logo.svg").is_file()
-    assert Path("frontend/assets/hort-innovation-logo.svg").is_file()
+    assert "/assets/approved-project-lockup.png" in dashboard
+    assert Path("frontend/assets/approved-project-lockup.png").is_file()
 
 
 def test_grower_manual_covers_model_and_decision_boundaries():
