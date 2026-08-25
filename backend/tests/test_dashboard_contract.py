@@ -115,6 +115,10 @@ def test_dashboard_separates_regional_field_and_damage_outputs():
     assert 'id="orchardLongitude"' in dashboard
     assert 'id="sampleDate"' in dashboard
     assert 'id="samplingMethod"' in dashboard
+    assert 'class="field-box hidden-support" id="observationPanel"' in dashboard
+    assert "Current orchard sampling (required)" in dashboard
+    assert "Add orchard observations (optional)" not in dashboard
+    assert "classList.toggle('hidden-support',!orchard)" in dashboard
     assert "geocoding-api.open-meteo.com" in dashboard
     assert "Use an orchard observation collected within the past 30 days" in dashboard
     assert "seasonal_latitude_override" in dashboard
