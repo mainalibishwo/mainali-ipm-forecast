@@ -1,0 +1,38 @@
+name: Apply activity-band UI patch
+
+on:
+  push:
+    branches:
+      - activity-bands-ui-20260901
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-test:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: activity-bands-ui-20260901
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply UI patch
+        run: python scripts/patch_activity_bands_ui.py
+      - name: Install test dependencies
+        run: pip install -r requirements.txt
+      - name: Run dashboard contract tests
+        run: pytest -q backend/tests/test_dashboard_contract.py
+      - name: Remove temporary patch files
+        run: |
+          rm scripts/patch_activity_bands_ui.py
+          rm .github/workflows/apply_activity_bands_ui.yml
+      - name: Commit patched dashboard
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontend/index.html scripts/patch_activity_bands_ui.py .github/workflows/apply_activity_bands_ui.yml
+          git commit -m "Add grower-facing activity bands to regional and orchard outlooks"
+          git push origin HEAD:activity-bands-ui-20260901
