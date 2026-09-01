@@ -24,6 +24,8 @@ jobs:
       - name: Install test dependencies
         run: pip install -r requirements.txt
       - name: Run dashboard contract tests
+        env:
+          PYTHONPATH: .
         run: pytest -q backend/tests/test_dashboard_contract.py
       - name: Remove temporary patch files
         run: |
